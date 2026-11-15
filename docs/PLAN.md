@@ -20,8 +20,8 @@ Acceptance: a push to `main` publishes the site; the Actions run is green.
 Acceptance: with JavaScript disabled, every piece of content is readable in both languages; no hard-coded copy in components.
 
 ## Phase 2: design system and layout
-- [ ] Tokens from SPEC §3 as CSS custom properties; self-hosted Bricolage Grotesque and IBM Plex Mono (WOFF2, latin + latin-ext).
-- [ ] Top bar, section layout, buttons, focus ring, theatre styling, contact, footer, matching the prototype at 1440 px and 390 px.
+- [x] Tokens from SPEC §3 as CSS custom properties; self-hosted Bricolage Grotesque and IBM Plex Mono (WOFF2, latin + latin-ext).
+- [x] Top bar, section layout, buttons, focus ring, theatre styling, contact, footer, matching the prototype at 1440 px and 390 px.
 
 Acceptance: side by side with `reference/prototype.html`, the static parts match; contrast AA everywhere.
 
