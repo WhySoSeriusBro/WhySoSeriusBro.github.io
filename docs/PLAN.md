@@ -26,8 +26,8 @@ Acceptance: with JavaScript disabled, every piece of content is readable in both
 Acceptance: side by side with `reference/prototype.html`, the static parts match; contrast AA everywhere.
 
 ## Phase 3: hero island
-- [ ] Port the luminescence simulation and the instrument strip (SPEC §5) into an island component; constants in one config object.
-- [ ] Offscreen and hidden-tab pause, DPR cap, touch path, reduced-motion path, single load pulse.
+- [x] Port the luminescence simulation and the instrument strip (SPEC §5) into an island component; constants in one config object.
+- [x] Offscreen and hidden-tab pause, DPR cap, touch path, reduced-motion path, single load pulse.
 
 Acceptance: 60 fps on a mid laptop, no long tasks over 50 ms after load on a mid Android (DevTools CPU 4× slowdown), text legible at peak glow.
 
