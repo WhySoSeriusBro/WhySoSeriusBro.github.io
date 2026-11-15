@@ -28,9 +28,9 @@ const sections = [
   <div class="lang" role="group" aria-label={t(lang, 'lang.group')}>
     {(['pt', 'en'] as const).map((l) =>
       l === lang ? (
-        <span aria-current="true" lang={l === 'pt' ? 'pt-PT' : 'en'} aria-label={`${t(l, `lang.${l}`)} (${l.toUpperCase()})`}>{l.toUpperCase()}</span>
+        <span aria-current="true" lang={l === 'pt' ? 'pt-PT' : 'en'}>{l.toUpperCase()}</span>
       ) : (
-        <a href={altHref} hreflang={l === 'pt' ? 'pt-PT' : 'en'} lang={l === 'pt' ? 'pt-PT' : 'en'} aria-label={`${t(l, `lang.${l}`)} (${l.toUpperCase()})`} data-lang-switch={other}>{l.toUpperCase()}</a>
+        <a href={altHref} hreflang={l === 'pt' ? 'pt-PT' : 'en'} lang={l === 'pt' ? 'pt-PT' : 'en'} aria-label={`${l.toUpperCase()} – ${t(l, `lang.${l}`)}`} data-lang-switch={other}>{l.toUpperCase()}</a>
       ),
     )}
   </div>

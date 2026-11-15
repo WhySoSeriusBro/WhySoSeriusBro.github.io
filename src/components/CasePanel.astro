@@ -13,7 +13,7 @@ const other = otherLang(lang);
 <dialog class="drawer" aria-labelledby="case-title" data-case-panel>
   <div class="drawer-tools">
     <!-- The page behind is inert while the panel is open, so the panel carries its own language switch. -->
-    <a class="case-lang mono" href={homePath(other)} hreflang={htmlLang[other]} lang={htmlLang[other]} data-lang-switch={other} aria-label={`${t(other, `lang.${other}`)} (${other.toUpperCase()})`}>{other.toUpperCase()}</a>
+    <a class="case-lang mono" href={homePath(other)} hreflang={htmlLang[other]} lang={htmlLang[other]} data-lang-switch={other} aria-label={`${other.toUpperCase()} – ${t(other, `lang.${other}`)}`}>{other.toUpperCase()}</a>
     <button type="button" class="close" data-case-close>{t(lang, 'd.close')}</button>
   </div>
   <div data-case-body></div>
