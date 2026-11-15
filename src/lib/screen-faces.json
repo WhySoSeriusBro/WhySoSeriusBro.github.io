@@ -1,0 +1,17 @@
+{
+  "_readme": "Size of each device screen face on the workbench, in mat units (CSS px at scale 1), measured from buildBench() in reference/prototype.html (face size minus the screen inset). The screenshot pipeline renders 1x and 2x of these sizes; the workbench uses them for layout.",
+  "luna-dashboard": [92, 193],
+  "twins-dashboard": [408, 190],
+  "trmnl-weather": [222, 142],
+  "p30-lights": [202, 94],
+  "tigtag-macros": [92, 193],
+  "arvore-qr": [116, 116],
+  "purepolis-citizen": [96, 203],
+  "cir4fun-showcase": [266, 149],
+  "planner-board": [428, 210],
+  "gerador-agenda": [328, 185],
+  "gerador-word": [128, 180],
+  "homehunter-list": [266, 149],
+  "lusonutri-home": [182, 242],
+  "expo-map": [222, 152]
+}

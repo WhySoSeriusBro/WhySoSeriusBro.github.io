@@ -122,6 +122,18 @@ const screensFile = z.object({
       urlNote: z.string().optional(),
       privacy: z.string(),
       redact: z.array(z.tuple([z.number(), z.number(), z.number(), z.number()])).optional(),
+      redactPt: z.array(z.tuple([z.number(), z.number(), z.number(), z.number()])).optional(),
+      /** Optional Playwright settings for scripts/capture.mjs. */
+      capture: z
+        .object({
+          waitFor: z.string().optional(),
+          delayMs: z.number().int().nonnegative().optional(),
+          login: z
+            .object({ url: z.url().optional(), user: z.string().optional(), pass: z.string().optional(), submit: z.string().optional(), after: z.string().optional() })
+            .optional(),
+          langs: z.record(z.enum(['en', 'pt']), z.object({ click: z.string().nullable().optional(), url: z.url().optional() })).optional(),
+        })
+        .optional(),
     }),
   ),
 });
