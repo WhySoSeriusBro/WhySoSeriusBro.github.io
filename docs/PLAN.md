@@ -3,19 +3,19 @@
 Work one phase at a time. At the end of each phase: build passes, tick the boxes in this file, commit, push, and give Cristiano a short summary in Portuguese with open questions and any missing screenshots or content todos.
 
 ## Phase 0: scaffold and deploy pipeline
-- [ ] Astro project at the repo root, static output, TypeScript strict, current stable versions pinned exactly. `.nvmrc` with Node LTS.
-- [ ] `.gitignore` (node_modules, dist, `.env*`, `assets/screens/out/`).
-- [ ] `.github/workflows/deploy.yml` with the official Astro GitHub Pages action, triggered on push to `main` and manually.
-- [ ] Pages source set to "GitHub Actions". If the API call is not allowed from the session, give Cristiano the exact clicks (Settings → Pages → Source → GitHub Actions).
-- [ ] A placeholder page deploys to https://whysoseriusbro.github.io.
+- [x] Astro project at the repo root, static output, TypeScript strict, current stable versions pinned exactly. `.nvmrc` with Node LTS.
+- [x] `.gitignore` (node_modules, dist, `.env*`, `assets/screens/out/`).
+- [x] `.github/workflows/deploy.yml` with the official Astro GitHub Pages action, triggered on push to `main` and manually.
+- [x] Pages source set to "GitHub Actions". If the API call is not allowed from the session, give Cristiano the exact clicks (Settings → Pages → Source → GitHub Actions).
+- [x] A placeholder page deploys to https://whysoseriusbro.github.io.
 
 Acceptance: a push to `main` publishes the site; the Actions run is green.
 
 ## Phase 1: content layer, routes, static HTML
-- [ ] Typed loaders for `content/projects.json`, `ui-strings.json`, `site.json`, `screens.json` (zod or TS types; fail the build on a malformed entry).
-- [ ] Routes from SPEC §2: `/`, `/en/`, `/pt/`, `/en/projects/<id>/`, `/pt/projects/<id>/`, `404`.
-- [ ] Home page sections render as plain HTML from content, in both languages: hero text, research rows + publications, workbench fallback list, theatre playbill, contact.
-- [ ] Language router at `/` and the PT/EN switch with hash preservation (SPEC §11).
+- [x] Typed loaders for `content/projects.json`, `ui-strings.json`, `site.json`, `screens.json` (zod or TS types; fail the build on a malformed entry).
+- [x] Routes from SPEC §2: `/`, `/en/`, `/pt/`, `/en/projects/<id>/`, `/pt/projects/<id>/`, `404`.
+- [x] Home page sections render as plain HTML from content, in both languages: hero text, research rows + publications, workbench fallback list, theatre playbill, contact.
+- [x] Language router at `/` and the PT/EN switch with hash preservation (SPEC §11).
 
 Acceptance: with JavaScript disabled, every piece of content is readable in both languages; no hard-coded copy in components.
 

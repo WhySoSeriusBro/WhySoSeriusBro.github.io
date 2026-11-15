@@ -36,10 +36,10 @@ This repository starts as a handoff: the spec, the content and a working prototy
 - No external requests at runtime except Google Fonts (or self-host the fonts, preferred).
 - No personal data beyond what `content/site.json` lists. Never publish a home address, phone number, or anything from a real user account in a screenshot.
 
-## Commands (fill in when the project is scaffolded)
+## Commands
 - `npm run dev`, `npm run build`, `npm run preview`
-- `npm run screens`: process raw screenshots (see SCREENSHOTS.md)
-- `npm run check`: Astro check + link check + Lighthouse CI (if added)
+- `npm run screens`: process raw screenshots (see SCREENSHOTS.md; added in Phase 5)
+- `npm run check`: Astro type check (link check and Lighthouse CI to be added)
 
 ## Definition of done for a phase
 Build passes, the acceptance criteria in PLAN.md for that phase are checked off in the file, both languages render, mobile (390 px) and desktop (1440 px) were looked at, and a short summary in Portuguese is given to Cristiano with any open questions.
