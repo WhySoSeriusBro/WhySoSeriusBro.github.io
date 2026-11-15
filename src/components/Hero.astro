@@ -1,9 +1,11 @@
 ---
 import { site, t, type Lang } from '../lib/content';
+import { LUMI } from '../scripts/luminescence';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 ---
-<section class="hero" id="top">
+<section class="hero" id="top" data-hero>
+  <canvas class="field" data-field aria-hidden="true"></canvas>
   <div class="intro">
     <h1>{site.person.name}</h1>
     <p class="tag">{t(lang, 'hero.tag')}</p>
@@ -13,4 +15,26 @@ const { lang } = Astro.props;
       <a class="btn ghost" href="#contact">{t(lang, 'hero.cta2')}</a>
     </div>
   </div>
+  <!-- Shown only once the simulation runs (.is-live), so no-JS visitors never see a dead instrument. -->
+  <div class="instrument" aria-hidden="true">
+    <canvas class="trace" data-trace></canvas>
+    <div class="readout mono">
+      <span>{t(lang, 'ro.source')}</span> <b>{LUMI.sourceNm} nm</b><br />
+      <span>{t(lang, 'ro.emission')}</span> <b data-counts>0</b><br />
+      τ <b>{LUMI.tau.toFixed(2)} s</b>
+    </div>
+    <p class="hint mono" data-hint data-mouse={t(lang, 'hint.mouse')} data-touch={t(lang, 'hint.touch')}></p>
+  </div>
 </section>
+
+<script>
+  import { startLuminescence } from '../scripts/luminescence';
+
+  // Island loaded when the browser is idle; the static gradient paints first.
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    const start = () => startLuminescence(hero);
+    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 1500 });
+    else setTimeout(start, 200);
+  }
+</script>

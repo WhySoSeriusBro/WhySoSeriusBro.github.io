@@ -58,6 +58,17 @@ h1 { font-size: clamp(3rem, 8vw, 7rem); font-weight: 800; line-height: 0.9; lett
 .tag { margin-top: 1.1rem; font-size: clamp(1.3rem, 2.3vw, 1.85rem); font-weight: 500; color: var(--cyan); text-shadow: 0 0 20px rgba(9, 14, 19, 0.95); }
 .lede { margin-top: 1.2rem; font-size: 1.12rem; color: #c9d3d9; max-width: 34rem; text-shadow: 0 0 14px rgba(9, 14, 19, 1); }
 .ctas { display: flex; gap: 12px; margin-top: 2rem; flex-wrap: wrap; }
+.field { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.instrument { position: relative; z-index: 1; pointer-events: none; padding: 0 var(--pad) 22px; display: none; grid-template-columns: 1fr auto; gap: 8px 24px; align-items: end; }
+.trace { width: 100%; height: 70px; display: block; border-top: 1px solid rgba(233, 239, 242, 0.08); }
+.readout { font-size: 0.76rem; color: var(--steel); line-height: 1.7; text-align: right; }
+.readout b { color: var(--amber); font-weight: 500; font-variant-numeric: tabular-nums; }
+.hint { grid-column: 1 / -1; font-size: 0.8rem; color: var(--steel); }
+/* Live sample: pointer goes to the canvas, except the two buttons. */
+.hero.is-live { cursor: crosshair; touch-action: pan-y; }
+.hero.is-live .instrument { display: grid; }
+.hero.is-live .intro { pointer-events: none; }
+.hero.is-live .intro a { pointer-events: auto; cursor: pointer; }
 
 /* Sections */
 main > section { padding: 96px var(--pad); }
@@ -144,6 +155,7 @@ main > section.contact { padding-bottom: 64px; border-top: 1px solid var(--line-
   .rows .sw { grid-row: span 3; height: 100%; }
   .rows .mt { text-align: left; }
   .pubs li { grid-template-columns: 1fr; gap: 2px; }
+  .readout { display: none; }
   .stagebit .wrap { grid-template-columns: 1fr; gap: 32px; }
 }
 
