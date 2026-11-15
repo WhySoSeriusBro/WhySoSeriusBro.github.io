@@ -1,0 +1,58 @@
+{
+  "person": {
+    "name": "Cristiano Barata",
+    "github": "https://github.com/WhySoSeriusBro",
+    "siteUrl": "https://whysoseriusbro.github.io",
+    "links": {
+      "email": null,
+      "linkedin": null,
+      "orcid": null,
+      "googleScholar": null,
+      "cvPdf": null
+    },
+    "linksNote": "null = not provided yet. Render the button only when the value is set; never ship a placeholder href."
+  },
+  "publications": [
+    { "year": 2026, "kind": { "en": "talk", "pt": "apresentação" }, "title": { "en": "LUNA at CANDO-EPE 2026 (IEEE), Budapest", "pt": "LUNA na CANDO-EPE 2026 (IEEE), Budapeste" }, "status": "presented" },
+    { "year": 2026, "kind": { "en": "thesis", "pt": "dissertação" }, "title": { "en": "LUNA: A Low-Cost Microcontroller-Based Luminescence Measurement System. Defence on 25 Nov 2026", "pt": "LUNA: A Low-Cost Microcontroller-Based Luminescence Measurement System. Defesa a 25 nov 2026" }, "status": "defence-scheduled", "updateAfter": "2026-11-25" },
+    { "year": 2027, "kind": { "en": "forthcoming", "pt": "em preparação" }, "title": { "en": "PUREPOLIS paper, IFAC INCOM 2027", "pt": "Artigo sobre o PUREPOLIS, IFAC INCOM 2027" }, "status": "forthcoming" },
+    { "year": 2027, "kind": { "en": "forthcoming", "pt": "em preparação" }, "title": { "en": "cir4fun-reuse paper, IEEE ICE 2027", "pt": "Artigo sobre o cir4fun-reuse, IEEE ICE 2027" }, "status": "forthcoming" }
+  ],
+  "theatre": {
+    "group": "NNT – Novo Núcleo Teatro",
+    "festival": {
+      "short": "FATAL",
+      "full": "Festival Anual de Teatro Académico de Lisboa",
+      "note": { "en": "Portugal's largest academic theatre festival.", "pt": "O maior festival de teatro académico do país." }
+    },
+    "intro": {
+      "en": "I act, write and direct with NNT – Novo Núcleo Teatro, the theatre group of NOVA FCT. Engineering taught me precision. The stage taught me timing, and how to hold a room.",
+      "pt": "Represento, escrevo e enceno no NNT – Novo Núcleo Teatro, o grupo de teatro da NOVA FCT. A engenharia ensinou-me precisão. O palco ensinou-me ritmo, e a prender uma sala."
+    },
+    "productions": [
+      {
+        "year": 2023,
+        "title": "Putrecere",
+        "basedOn": { "en": "after Shakespeare's The Tragedy of Macbeth", "pt": "a partir de A Tragédia de Macbeth, de Shakespeare" },
+        "role": { "en": "Played Macbeth.", "pt": "Interpretei Macbeth." },
+        "award": { "en": "Honourable Mention, FATAL 2023", "pt": "Menção Honrosa, FATAL 2023" },
+        "sources": [
+          "https://www.fct.unl.pt/en/news/2023/06/novo-nucleo-teatro-theather-student-group-distinguished-fatal-2023",
+          "https://www.cm-almada.pt/viver/cultura/putrecere-nnt-novo-nucleo-de-teatro"
+        ]
+      },
+      {
+        "year": 2024,
+        "title": "Parábola",
+        "role": { "en": "Cast member.", "pt": "Elenco." },
+        "award": { "en": "FATAL Prize for best show, FATAL 2024", "pt": "Prémio FATAL para melhor espetáculo, FATAL 2024" },
+        "sources": [
+          "https://www.timeout.pt/lisboa/pt/noticias/ja-sao-conhecidos-os-vencedores-da-23-edicao-do-fatal-060724",
+          "https://www.fct.unl.pt/en/news/2024/06/nova-fcts-novo-nucleo-de-teatro-triumphs-again-portugals-largest-academic-theatre-festival"
+        ]
+      }
+    ],
+    "writtenAndDirected": ["Cluedo Medieval", "GrecoCluedo", "Fa'afafine"],
+    "doNotList": ["Hamlet Bêbado / Drunk Shakespeare", "Entre Quatro Paredes (not in the cast)"]
+  }
+}

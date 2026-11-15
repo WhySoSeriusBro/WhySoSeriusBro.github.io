@@ -1,0 +1,685 @@
+{
+  "sections": {
+    "research": [
+      "luna",
+      "lab",
+      "twins",
+      "purepolis",
+      "cir4fun"
+    ],
+    "workbench": [
+      "luna",
+      "twins",
+      "gestures",
+      "trmnl",
+      "p30",
+      "tigtag",
+      "arvore",
+      "purepolis",
+      "cir4fun",
+      "planner",
+      "gerador",
+      "homehunter",
+      "lusonutri",
+      "expo"
+    ]
+  },
+  "projects": {
+    "luna": {
+      "id": "luna",
+      "name": {
+        "en": "LUNA",
+        "pt": "LUNA"
+      },
+      "stack": [
+        "BPW21 photodiode",
+        "LM6142 TIA, Rf 300 kΩ",
+        "ADS1115 16-bit ADC",
+        "ESP32-WROOM-32E",
+        "Wi-Fi web dashboard",
+        "CadQuery enclosure"
+      ],
+      "spectrumWavelengthNm": 465,
+      "en": {
+        "hook": "Making light measurable with accessible hardware.",
+        "meta": "MSc thesis, NOVA FCT",
+        "cat": "MSc thesis, NOVA FCT",
+        "status": "Defence scheduled, 25 Nov 2026",
+        "role": "Sole developer: analog front-end, firmware, enclosure, web dashboard",
+        "problem": "Luminescence measurement usually needs a benchtop fluorimeter that costs thousands and stays closed to modification.",
+        "built": "A BPW21 photodiode feeds an LM6142 transimpedance amplifier and an ADS1115 16-bit ADC, read by an ESP32 that serves a live web dashboard over its own Wi-Fi, with calibration and CSV export. Optics and electronics sit in two friction-fit 3D-printed modules with a 90° excitation and detection geometry.",
+        "result": "Presented at CANDO-EPE 2026 (IEEE) in Budapest. Practical detection limit around 1 nW (3σ) in dark-box tests, limited by baseline thermal drift. Tested with Nile Red, fluorescein and a photochromic spiropyran. Bill of materials around €45.",
+        "links": [
+          "Thesis (PDF)",
+          "CANDO-EPE slides",
+          "Repository"
+        ]
+      },
+      "pt": {
+        "hook": "Tornar a luz mensurável com hardware acessível.",
+        "meta": "Dissertação, NOVA FCT",
+        "cat": "Dissertação de mestrado, NOVA FCT",
+        "status": "Defesa marcada, 25 nov 2026",
+        "role": "Desenvolvimento integral: front-end analógico, firmware, encapsulamento e dashboard web",
+        "problem": "Medir luminescência exige normalmente um fluorímetro de bancada que custa milhares de euros e não se pode modificar.",
+        "built": "Um fotodíodo BPW21 alimenta um amplificador de transimpedância LM6142 e um ADC de 16 bits ADS1115, lido por um ESP32 que serve um dashboard web em tempo real na sua própria rede Wi-Fi, com calibração e exportação CSV. A ótica e a eletrónica estão em dois módulos impressos em 3D, encaixados por fricção, com geometria de excitação e deteção a 90°.",
+        "result": "Apresentado na CANDO-EPE 2026 (IEEE), em Budapeste. Limite de deteção prático de cerca de 1 nW (3σ) em câmara escura, limitado pela deriva térmica da linha de base. Testado com Nile Red, fluoresceína e um espiropirano fotocrómico. Custo de componentes de cerca de 45 €.",
+        "links": [
+          "Dissertação (PDF)",
+          "Slides CANDO-EPE",
+          "Repositório"
+        ]
+      }
+    },
+    "lab": {
+      "id": "lab",
+      "name": {
+        "en": "AI X Lab",
+        "pt": "AI X Lab"
+      },
+      "stack": [
+        "Lab operations",
+        "AI tooling",
+        "Robotics",
+        "Prototyping"
+      ],
+      "spectrumWavelengthNm": 495,
+      "en": {
+        "hook": "Putting AI and robots in business students' hands.",
+        "meta": "Lab Manager, Nova SBE, since Nov 2026",
+        "cat": "Nova SBE",
+        "status": "Current role, since Nov 2026",
+        "role": "Lab Manager",
+        "problem": "Business students hear about AI every day but rarely get to build with it.",
+        "built": "I run the lab: equipment, projects, and the path from an idea to a working demo.",
+        "result": "Represented the lab at Estoril Conferences, October 2026.",
+        "links": [
+          "AI X Lab"
+        ]
+      },
+      "pt": {
+        "hook": "Pôr IA e robôs nas mãos de estudantes de gestão.",
+        "meta": "Lab Manager, Nova SBE, desde nov 2026",
+        "cat": "Nova SBE",
+        "status": "Função atual, desde nov 2026",
+        "role": "Lab Manager",
+        "problem": "Os estudantes de gestão ouvem falar de IA todos os dias, mas raramente constroem algo com ela.",
+        "built": "Faço a gestão do laboratório: equipamento, projetos e o caminho de uma ideia até uma demonstração que funciona.",
+        "result": "Representei o laboratório nas Estoril Conferences, em outubro de 2026.",
+        "links": [
+          "AI X Lab"
+        ]
+      }
+    },
+    "twins": {
+      "id": "twins",
+      "name": {
+        "en": "Digital twins",
+        "pt": "Gémeos digitais"
+      },
+      "stack": [
+        "Asset Administration Shell",
+        "FA³ST Service",
+        "ESP32-C6",
+        "ESP8266",
+        "ESP32-S2",
+        "MQTT",
+        "OPC UA",
+        "Eclipse EDC",
+        "PostgreSQL",
+        "Docker"
+      ],
+      "spectrumWavelengthNm": 530,
+      "en": {
+        "hook": "Connecting physical machines to standard digital twins.",
+        "meta": "UNINOVA, Industry 4.0",
+        "cat": "UNINOVA, Industry 4.0",
+        "status": "Research, completed",
+        "role": "Researcher",
+        "problem": "Industrial assets rarely have a consistent, interoperable digital representation that other companies can query under agreed terms.",
+        "built": "An ESP32-C6 publishes over MQTT to FA³ST Service, which exposes an Asset Administration Shell over REST and OPC UA. An Eclipse EDC provider and consumer then negotiate a contract over the Dataspace Protocol before data flows. Extended to two simulated machines, a press on an ESP8266 and a water system on an ESP32-S2, with a PostgreSQL historian.",
+        "result": "All five FA³ST stages running with live data: semantics, asset connections, OPC UA, persistence and message bus.",
+        "links": [
+          "Repository",
+          "Tutorial (PDF)"
+        ]
+      },
+      "pt": {
+        "hook": "Ligar máquinas físicas a gémeos digitais normalizados.",
+        "meta": "UNINOVA, Indústria 4.0",
+        "cat": "UNINOVA, Indústria 4.0",
+        "status": "Investigação, concluída",
+        "role": "Investigador",
+        "problem": "Os ativos industriais raramente têm uma representação digital consistente e interoperável que outras empresas possam consultar em condições acordadas.",
+        "built": "Um ESP32-C6 publica por MQTT para o FA³ST Service, que expõe uma Asset Administration Shell por REST e OPC UA. Depois, um provider e um consumer Eclipse EDC negociam um contrato pelo Dataspace Protocol antes de os dados circularem. Alargado a duas máquinas simuladas, uma prensa num ESP8266 e um sistema de água num ESP32-S2, com histórico em PostgreSQL.",
+        "result": "As cinco fases do FA³ST a funcionar com dados reais: semântica, ligações aos ativos, OPC UA, persistência e message bus.",
+        "links": [
+          "Repositório",
+          "Tutorial (PDF)"
+        ]
+      }
+    },
+    "purepolis": {
+      "id": "purepolis",
+      "name": {
+        "en": "PUREPOLIS",
+        "pt": "PUREPOLIS"
+      },
+      "stack": [
+        "React 19",
+        "Vite",
+        "Next.js 16",
+        "Supabase",
+        "PostGIS",
+        "RLS",
+        "Web Push",
+        "PWA",
+        "Leaflet"
+      ],
+      "spectrumWavelengthNm": 575,
+      "en": {
+        "hook": "Civic questionnaires that appear where they matter.",
+        "meta": "UNINOVA, paper forthcoming",
+        "cat": "UNINOVA, citizen science",
+        "status": "Paper forthcoming, IFAC INCOM 2027",
+        "role": "Full-stack developer",
+        "problem": "Cities struggle to ask citizens the right question at the right place, and to see the answers on a map.",
+        "built": "A PWA with three roles. Cities draw zones and schedule questionnaires; citizens inside a zone get them by geofence or Web Push; daily and weekly statistics land in the city's dashboard. React 19 front-end, API-only Next.js 16 back-end, Supabase with PostGIS and row-level security.",
+        "result": "Piloted with demo cities in Porto and Faro, then handed over to UNINOVA's infrastructure. Paper in preparation for IFAC INCOM 2027.",
+        "links": [
+          "Live app",
+          "Paper (when published)"
+        ]
+      },
+      "pt": {
+        "hook": "Questionários cívicos que aparecem onde importam.",
+        "meta": "UNINOVA, artigo em preparação",
+        "cat": "UNINOVA, ciência cidadã",
+        "status": "Artigo em preparação, IFAC INCOM 2027",
+        "role": "Programador full-stack",
+        "problem": "As cidades têm dificuldade em fazer a pergunta certa no sítio certo aos cidadãos, e em ver as respostas num mapa.",
+        "built": "Uma PWA com três papéis. As cidades desenham zonas e agendam questionários; os cidadãos dentro de uma zona recebem-nos por geofence ou Web Push; as estatísticas diárias e semanais chegam ao painel da cidade. Front-end em React 19, back-end Next.js 16 só de API, Supabase com PostGIS e row-level security.",
+        "result": "Testado com cidades de demonstração no Porto e em Faro, e depois passado para a infraestrutura da UNINOVA. Artigo em preparação para a IFAC INCOM 2027.",
+        "links": [
+          "Aplicação",
+          "Artigo (quando publicado)"
+        ]
+      }
+    },
+    "cir4fun": {
+      "id": "cir4fun",
+      "name": {
+        "en": "cir4fun-reuse",
+        "pt": "cir4fun-reuse"
+      },
+      "stack": [
+        "React",
+        "Vite",
+        "PWA",
+        "Next.js",
+        "PostGIS",
+        "Leaflet",
+        "jsPDF",
+        "PT/EN"
+      ],
+      "spectrumWavelengthNm": 615,
+      "en": {
+        "hook": "Giving furniture and objects a second life.",
+        "meta": "UNINOVA, paper forthcoming",
+        "cat": "UNINOVA, circular economy, EU-funded",
+        "status": "Live in Guimarães, paper forthcoming at IEEE ICE 2027",
+        "role": "Full-stack developer",
+        "problem": "Reusable objects end up as waste because collection, triage and reuse happen in separate places with no shared record.",
+        "built": "A municipal service with three roles: citizens request a collection, the municipality triages and assigns, institutions collect. Items marked for reuse or repair go to a public Showcase before anyone else gets them. Request splitting, PDF reports, Portuguese and English interface.",
+        "result": "Running for the municipality of Guimarães on UNINOVA's GRIS infrastructure. Paper in preparation for IEEE ICE 2027.",
+        "links": [
+          "Showcase",
+          "Paper (when published)"
+        ]
+      },
+      "pt": {
+        "hook": "Dar uma segunda vida a móveis e objetos.",
+        "meta": "UNINOVA, artigo em preparação",
+        "cat": "UNINOVA, economia circular, financiamento UE",
+        "status": "Em produção em Guimarães, artigo em preparação para a IEEE ICE 2027",
+        "role": "Programador full-stack",
+        "problem": "Objetos reutilizáveis acabam no lixo porque a recolha, a triagem e a reutilização acontecem em sítios diferentes, sem registo comum.",
+        "built": "Um serviço municipal com três papéis: o cidadão pede a recolha, a Câmara faz a triagem e atribui, a instituição recolhe. Os objetos destinados a reutilizar ou reparar vão para uma montra pública, o Showcase. Divisão de pedidos, relatórios em PDF, interface em português e inglês.",
+        "result": "Em funcionamento para a Câmara Municipal de Guimarães, na infraestrutura GRIS da UNINOVA. Artigo em preparação para a IEEE ICE 2027.",
+        "links": [
+          "Showcase",
+          "Artigo (quando publicado)"
+        ]
+      }
+    },
+    "gestures": {
+      "id": "gestures",
+      "name": {
+        "en": "Gesture lights",
+        "pt": "Luzes por gestos"
+      },
+      "stack": [
+        "Raspberry Pi 5",
+        "Camera module",
+        "Hand tracking",
+        "Govee"
+      ],
+      "en": {
+        "hook": "One gesture on, another off.",
+        "cat": "Raspberry Pi 5, personal project",
+        "status": "In progress",
+        "role": "Hardware and software",
+        "problem": "Switching the bedroom lights means finding a phone or asking a voice assistant.",
+        "built": "A camera on a Raspberry Pi 5 watches for two distinct hand gestures, one to switch the Govee lights on and one to switch them off.",
+        "result": "",
+        "links": [
+          "Repository"
+        ],
+        "todo": {
+          "result": "Add a demo video."
+        }
+      },
+      "pt": {
+        "hook": "Um gesto liga, outro desliga.",
+        "cat": "Raspberry Pi 5, projeto pessoal",
+        "status": "Em curso",
+        "role": "Hardware e software",
+        "problem": "Mudar a luz do quarto obriga a procurar o telemóvel ou a pedir a um assistente de voz.",
+        "built": "Uma câmara num Raspberry Pi 5 deteta dois gestos de mão distintos, um para acender as luzes Govee e outro para as apagar.",
+        "result": "",
+        "links": [
+          "Repositório"
+        ],
+        "todo": {
+          "result": "Acrescentar um vídeo de demonstração."
+        }
+      }
+    },
+    "trmnl": {
+      "id": "trmnl",
+      "name": {
+        "en": "TRMNL",
+        "pt": "TRMNL"
+      },
+      "stack": [
+        "TRMNL 7.5\" e-ink",
+        "Terminus (self-hosted)",
+        "Open-Meteo",
+        "Docker"
+      ],
+      "en": {
+        "hook": "A quiet display for information that matters.",
+        "cat": "Self-hosted, personal project",
+        "status": "Running at home",
+        "role": "Server setup and plugin development",
+        "problem": "Useful information is scattered across apps and notifications that all compete for attention.",
+        "built": "My own Terminus server drives a 7.5-inch TRMNL e-ink display, with a custom weather plugin built on the Open-Meteo API.",
+        "result": "On my desk, refreshing on its own schedule, no cloud account needed.",
+        "links": [
+          "Plugin code"
+        ]
+      },
+      "pt": {
+        "hook": "Um ecrã discreto para a informação que importa.",
+        "cat": "Autoalojado, projeto pessoal",
+        "status": "Em funcionamento em casa",
+        "role": "Configuração do servidor e desenvolvimento do plugin",
+        "problem": "A informação útil anda espalhada por apps e notificações que competem todas pela atenção.",
+        "built": "O meu próprio servidor Terminus alimenta um ecrã e-ink TRMNL de 7,5 polegadas, com um plugin de meteorologia feito sobre a API Open-Meteo.",
+        "result": "Na secretária, a atualizar sozinho, sem conta na cloud.",
+        "links": [
+          "Código do plugin"
+        ]
+      }
+    },
+    "p30": {
+      "id": "p30",
+      "name": {
+        "en": "Lights dashboard",
+        "pt": "Painel de luzes"
+      },
+      "stack": [
+        "Huawei P30 Pro",
+        "Android",
+        "Govee"
+      ],
+      "en": {
+        "hook": "An old flagship phone, reborn as a light switch.",
+        "cat": "Android, personal project",
+        "status": "Personal project",
+        "role": "Design and development",
+        "problem": "A retired phone sits in a drawer while the lights need a physical control.",
+        "built": "A Huawei P30 Pro on a desk stand becomes a permanent dashboard for the Govee lights at home.",
+        "result": "",
+        "links": [
+          "Repository"
+        ],
+        "todo": {
+          "result": "Add a photo of the dashboard on the desk."
+        }
+      },
+      "pt": {
+        "hook": "Um topo de gama antigo, transformado em interruptor.",
+        "cat": "Android, projeto pessoal",
+        "status": "Projeto pessoal",
+        "role": "Design e desenvolvimento",
+        "problem": "Um telemóvel reformado fica na gaveta enquanto as luzes precisam de um comando físico.",
+        "built": "Um Huawei P30 Pro num suporte de secretária passa a ser o painel permanente das luzes Govee da casa.",
+        "result": "",
+        "links": [
+          "Repositório"
+        ],
+        "todo": {
+          "result": "Acrescentar uma fotografia do painel na secretária."
+        }
+      }
+    },
+    "tigtag": {
+      "id": "tigtag",
+      "name": {
+        "en": "TigTag",
+        "pt": "TigTag"
+      },
+      "stack": [
+        "Android",
+        "NFC",
+        "YAML macros",
+        "JavaScript",
+        "GitHub sync",
+        "MCP server",
+        "Govee LAN API"
+      ],
+      "en": {
+        "hook": "Tap the door frame, the kitchen light answers.",
+        "cat": "Android, personal project",
+        "status": "Personal project",
+        "role": "Design and development",
+        "problem": "Automation apps like MacroDroid are powerful but too fiddly for two small daily routines.",
+        "built": "My own Android app. Two NFC tags at the front door: one toggles the kitchen light over the Govee LAN API, the other opens the bus route to work. Macros are declarative YAML plus JavaScript, synced from a GitHub repo, and Claude can push new ones through an MCP server.",
+        "result": "",
+        "links": [
+          "Repository",
+          "Demo video"
+        ],
+        "todo": {
+          "result": "Add a short demo video."
+        }
+      },
+      "pt": {
+        "hook": "Um toque na porta, a luz da cozinha responde.",
+        "cat": "Android, projeto pessoal",
+        "status": "Projeto pessoal",
+        "role": "Design e desenvolvimento",
+        "problem": "Apps de automação como o MacroDroid são poderosas, mas complicadas demais para duas rotinas pequenas.",
+        "built": "Uma app Android própria. Duas tags NFC à entrada de casa: uma alterna a luz da cozinha pela API LAN da Govee, a outra abre o caminho de autocarro para o trabalho. As macros são YAML declarativo com JavaScript, sincronizadas a partir de um repositório GitHub, e o Claude pode enviar macros novas por um servidor MCP.",
+        "result": "",
+        "links": [
+          "Repositório",
+          "Vídeo"
+        ],
+        "todo": {
+          "result": "Acrescentar um vídeo curto de demonstração."
+        }
+      }
+    },
+    "arvore": {
+      "id": "arvore",
+      "name": {
+        "en": "Árvore QR",
+        "pt": "Árvore QR"
+      },
+      "stack": [
+        "Web",
+        "Pixel art",
+        "Voxels",
+        "Single HTML file"
+      ],
+      "en": {
+        "hook": "QR codes that grow into tiny worlds.",
+        "cat": "Web, personal project",
+        "status": "Personal project",
+        "role": "Design and development",
+        "problem": "QR codes work, but nobody wants to look at them.",
+        "built": "A generator that draws a working QR code in pixel art, with a garden and a 3D voxel tree growing out of it.",
+        "result": "",
+        "links": [
+          "Try it"
+        ],
+        "todo": {
+          "result": "Embed the live generator here."
+        }
+      },
+      "pt": {
+        "hook": "Códigos QR que crescem em pequenos mundos.",
+        "cat": "Web, projeto pessoal",
+        "status": "Projeto pessoal",
+        "role": "Design e desenvolvimento",
+        "problem": "Os códigos QR funcionam, mas ninguém gosta de olhar para eles.",
+        "built": "Um gerador que desenha um código QR funcional em pixel art, com um jardim e uma árvore 3D em voxels a crescer a partir dele.",
+        "result": "",
+        "links": [
+          "Experimentar"
+        ],
+        "todo": {
+          "result": "Incorporar aqui o gerador ao vivo."
+        }
+      }
+    },
+    "planner": {
+      "id": "planner",
+      "name": {
+        "en": "Team Planner",
+        "pt": "Planner da equipa"
+      },
+      "stack": [
+        "Supabase",
+        "Vercel",
+        "PWA",
+        "Push notifications",
+        "Email"
+      ],
+      "en": {
+        "hook": "Microsoft Planner, rebuilt for how my team works.",
+        "cat": "Web app, team tool",
+        "status": "Built for my team",
+        "role": "Design and development",
+        "problem": "The team liked Planner but needed things it does not do: emails when a task is done, monthly summaries per plan, recurring tasks.",
+        "built": "A standalone Planner-style web app: one team with several plans, permissions per plan, boards, comments, file attachments, recurring tasks, push and in-app notifications, and an email to the task's creator when it is done.",
+        "result": "",
+        "links": [
+          "Live app",
+          "Repository"
+        ],
+        "todo": {
+          "result": "Add usage numbers from the team."
+        }
+      },
+      "pt": {
+        "hook": "O Planner da Microsoft, refeito à medida da equipa.",
+        "cat": "Web app, ferramenta de equipa",
+        "status": "Feito para a equipa",
+        "role": "Design e desenvolvimento",
+        "problem": "A equipa gostava do Planner, mas precisava do que ele não faz: email quando uma tarefa é concluída, resumo mensal por plano, tarefas recorrentes.",
+        "built": "Uma web app independente ao estilo do Planner: uma equipa com vários planos, permissões por plano, quadros, comentários, anexos, tarefas recorrentes, notificações push e na app, e email para quem criou a tarefa quando ela é concluída.",
+        "result": "",
+        "links": [
+          "Aplicação",
+          "Repositório"
+        ],
+        "todo": {
+          "result": "Acrescentar números de utilização da equipa."
+        }
+      }
+    },
+    "gerador": {
+      "id": "gerador",
+      "name": {
+        "en": "Institutional Generator",
+        "pt": "Gerador Institucional"
+      },
+      "stack": [
+        "Web app",
+        "Agenda scraping",
+        "Word generation",
+        "Netlify"
+      ],
+      "en": {
+        "hook": "From the faculty agenda to a finished newsletter.",
+        "cat": "Web app, NOVA FCT",
+        "status": "Internal tool",
+        "role": "Design and development",
+        "problem": "Building the faculty newsletter meant copying every agenda event by hand into teasers and a Word document.",
+        "built": "A web app that extracts the NOVA FCT agenda and generates the newsletter teasers and the Word document automatically.",
+        "result": "",
+        "links": [
+          "Live app"
+        ],
+        "todo": {
+          "result": "Add how much time it saves per issue."
+        }
+      },
+      "pt": {
+        "hook": "Da agenda da faculdade à newsletter pronta.",
+        "cat": "Web app, NOVA FCT",
+        "status": "Ferramenta interna",
+        "role": "Design e desenvolvimento",
+        "problem": "Fazer a newsletter da faculdade obrigava a copiar à mão cada evento da agenda para teasers e para um documento Word.",
+        "built": "Uma web app que extrai a agenda da NOVA FCT e gera automaticamente os teasers da newsletter e o documento Word.",
+        "result": "",
+        "links": [
+          "Aplicação"
+        ],
+        "todo": {
+          "result": "Acrescentar quanto tempo poupa por edição."
+        }
+      }
+    },
+    "lusonutri": {
+      "id": "lusonutri",
+      "name": {
+        "en": "LusoNutri",
+        "pt": "LusoNutri"
+      },
+      "stack": [
+        "Web app"
+      ],
+      "en": {
+        "hook": "Nutrition, in Portuguese.",
+        "cat": "Web app, personal project",
+        "status": "New, November 2026",
+        "role": "Design and development",
+        "problem": "",
+        "built": "",
+        "result": "",
+        "links": [
+          "Live app"
+        ],
+        "todo": {
+          "problem": "Describe the problem LusoNutri solves.",
+          "built": "Describe what LusoNutri does and how it is built.",
+          "result": "Add the result or current status."
+        }
+      },
+      "pt": {
+        "hook": "Nutrição, em português.",
+        "cat": "Web app, projeto pessoal",
+        "status": "Novo, novembro 2026",
+        "role": "Design e desenvolvimento",
+        "problem": "",
+        "built": "",
+        "result": "",
+        "links": [
+          "Aplicação"
+        ],
+        "todo": {
+          "problem": "Descrever o problema que o LusoNutri resolve.",
+          "built": "Descrever o que o LusoNutri faz e como está construído.",
+          "result": "Acrescentar o resultado ou o estado atual."
+        }
+      }
+    },
+    "homehunter": {
+      "id": "homehunter",
+      "name": {
+        "en": "HomeHunter",
+        "pt": "HomeHunter"
+      },
+      "stack": [
+        "FastAPI",
+        "Next.js (static)",
+        "Scrapers",
+        "Telegram bot",
+        "Routing"
+      ],
+      "en": {
+        "hook": "Eight rental portals, one honest list.",
+        "cat": "Web app, personal project",
+        "status": "Search closed",
+        "role": "Design and development",
+        "problem": "Flat hunting meant refreshing eight portals a day and guessing distances that listings never state.",
+        "built": "A rental aggregator with a FastAPI back-end and a static Next.js front-end, pulling Idealista, Imovirtual, OLX, Casa Sapo, SuperCasa, CustoJusto, RE/MAX and ERA, with full filters and Telegram alerts for new listings. Walking distance to the station is a real route when the listing gives an address, and empty when it does not. The rule: never invent a value.",
+        "result": "Used for my own move to the Cascais line. The search is over.",
+        "links": [
+          "Repository"
+        ]
+      },
+      "pt": {
+        "hook": "Oito portais de arrendamento, uma lista honesta.",
+        "cat": "Web app, projeto pessoal",
+        "status": "Procura encerrada",
+        "role": "Design e desenvolvimento",
+        "problem": "Procurar casa obrigava a atualizar oito portais por dia e a adivinhar distâncias que os anúncios nunca dizem.",
+        "built": "Um agregador de arrendamento com back-end FastAPI e front-end Next.js estático, que recolhe do Idealista, Imovirtual, OLX, Casa Sapo, SuperCasa, CustoJusto, RE/MAX e ERA, com filtros completos e alertas no Telegram para anúncios novos. A distância a pé até à estação é uma rota real quando o anúncio dá morada, e fica vazia quando não dá. A regra: nunca inventar um valor.",
+        "result": "Usado na minha própria mudança para a Linha de Cascais. A procura terminou.",
+        "links": [
+          "Repositório"
+        ]
+      }
+    },
+    "expo": {
+      "id": "expo",
+      "name": {
+        "en": "EXPO FCT 3D map",
+        "pt": "Mapa 3D da EXPO FCT"
+      },
+      "stack": [
+        "Three.js",
+        "React Three Fiber",
+        "OpenStreetMap",
+        "GPS",
+        "QR codes",
+        "PT/EN"
+      ],
+      "en": {
+        "hook": "The open-day campus map, in 3D and in your pocket.",
+        "cat": "Web, NOVA FCT open day",
+        "status": "In planning",
+        "role": "Design and development",
+        "problem": "Secondary-school visitors get a paper map and lose their way between departments.",
+        "built": "An interactive low-poly 3D model of the NOVA FCT campus built from OpenStreetMap, with real GPS on campus or virtual navigation, course information per building, and a stamp hunt with QR codes at the stands.",
+        "result": "",
+        "links": [
+          "Prototype"
+        ],
+        "todo": {
+          "result": "Add the launch edition and visitor numbers."
+        }
+      },
+      "pt": {
+        "hook": "O mapa do dia aberto, em 3D e no bolso.",
+        "cat": "Web, dia aberto da NOVA FCT",
+        "status": "Em planeamento",
+        "role": "Design e desenvolvimento",
+        "problem": "Os visitantes do secundário recebem um mapa em papel e perdem-se entre departamentos.",
+        "built": "Um modelo 3D low-poly interativo do campus da NOVA FCT, feito a partir do OpenStreetMap, com GPS real no campus ou navegação virtual, informação dos cursos por edifício e um peddy-paper com QR codes nos stands.",
+        "result": "",
+        "links": [
+          "Protótipo"
+        ],
+        "todo": {
+          "result": "Acrescentar a edição de estreia e o número de visitantes."
+        }
+      }
+    }
+  }
+}

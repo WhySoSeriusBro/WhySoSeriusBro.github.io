@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cristiano Barata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#090E13;
+    --graphite:#111820;
+    --paper:#E9EFF2;
+    --steel:#8696a1;
+    --cyan:#19D8E8;
+    --amber:#FFB45E;
+    --mat:#1f3d36;
+    --pad:clamp(20px,4vw,56px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--deep);color:var(--paper);font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.5}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+  .mono{font-family:'IBM Plex Mono',monospace}
+
+  /* top bar */
+  .bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;padding:14px var(--pad);background:rgba(9,14,19,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(233,239,242,.07)}
+  .logo{display:flex;width:34px;height:34px;flex:none}
+  .bar nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+  .bar nav a{text-decoration:none;font-size:.95rem;padding:.4rem .75rem;border-radius:6px;color:#c4ced4;white-space:nowrap}
+  .bar nav a:hover{color:var(--paper);background:rgba(233,239,242,.06)}
+  .bar nav a.cv{color:var(--deep);background:var(--paper);font-weight:500}
+  .lang{display:flex;flex:none;border-radius:7px;box-shadow:inset 0 0 0 1px rgba(233,239,242,.22);padding:3px}
+  .lang button{font:500 .8rem 'IBM Plex Mono',monospace;background:none;border:0;color:var(--steel);padding:.3rem .5rem;border-radius:5px;cursor:pointer}
+  .lang button[aria-pressed="true"]{background:var(--cyan);color:var(--deep)}
+
+  /* hero: the sample fills the whole screen, text sits on top */
+  .hero{position:relative;overflow:hidden;min-height:calc(100vh - 63px);display:grid;grid-template-rows:1fr auto;touch-action:pan-y;cursor:crosshair;
+    background:radial-gradient(ellipse at 60% 45%,#0f1a24 0%,var(--deep) 70%);border-bottom:1px solid rgba(233,239,242,.07)}
+  #field{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .intro{position:relative;z-index:1;align-self:center;padding:56px var(--pad);max-width:44rem;pointer-events:none}
+  .intro::before{content:"";position:absolute;inset:-40px -160px -40px -80px;z-index:-1;background:radial-gradient(ellipse at 35% 50%,rgba(9,14,19,.78) 0%,rgba(9,14,19,.45) 45%,transparent 72%)}
+  .intro a{pointer-events:auto;cursor:pointer}
+  h1{font-size:clamp(3rem,8vw,7rem);font-weight:800;line-height:.9;letter-spacing:-.035em;text-shadow:0 0 30px rgba(9,14,19,.9)}
+  .tag{margin-top:1.1rem;font-size:clamp(1.3rem,2.3vw,1.85rem);font-weight:500;color:var(--cyan);text-shadow:0 0 20px rgba(9,14,19,.95)}
+  .lede{margin-top:1.2rem;font-size:1.12rem;color:#c9d3d9;max-width:34rem;text-shadow:0 0 14px rgba(9,14,19,1)}
+  .ctas{display:flex;gap:12px;margin-top:2rem;flex-wrap:wrap}
+  .btn{display:inline-block;text-decoration:none;font-weight:500;padding:.75rem 1.2rem;border-radius:8px;background:var(--cyan);color:var(--deep)}
+  .btn.ghost{background:rgba(9,14,19,.6);color:var(--paper);box-shadow:inset 0 0 0 1px rgba(233,239,242,.3)}
+  .instrument{position:relative;z-index:1;pointer-events:none;padding:0 var(--pad) 22px;display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:end}
+  #trace{width:100%;height:70px;display:block;border-top:1px solid rgba(233,239,242,.08)}
+  .readout{font-size:.76rem;color:var(--steel);line-height:1.7;text-align:right}
+  .readout b{color:var(--amber);font-weight:500}
+  .hint{grid-column:1/-1;font-size:.8rem;color:var(--steel)}
+
+  section{padding:96px var(--pad)}
+  h2{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:700;letter-spacing:-.025em;line-height:1.05}
+  .sub{color:#aab6bd;margin-top:.6rem;max-width:38rem;font-size:1.05rem}
+
+  /* research spectrum */
+  .bandwrap{position:relative;height:84px;margin-top:40px}
+  .band{position:absolute;inset:0;border-radius:3px;opacity:.16;
+    background:linear-gradient(90deg,#4b1d8f 0%,#2a3cff 14%,#00a3ff 28%,#00d9a0 42%,#8fe03a 54%,#ffe23a 64%,#ff9a1f 76%,#ff3b1f 88%,#7a0a0a 100%)}
+  .line{position:absolute;top:0;height:100%;width:28px;margin-left:-14px;background:none;border:0;cursor:pointer;display:flex;justify-content:center}
+  .line::before{content:"";width:2px;height:100%;background:var(--c);box-shadow:0 0 10px var(--c),0 0 26px var(--c);opacity:.7;transition:opacity .15s,width .15s}
+  .line.hot::before{opacity:1;width:5px}
+  .rows{list-style:none;margin-top:20px;border-top:1px solid rgba(233,239,242,.1)}
+  .rows button{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:4px minmax(9rem,15rem) 1fr auto;gap:20px;align-items:center;padding:18px 8px;border-bottom:1px solid rgba(233,239,242,.1)}
+  .rows button:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+  .rows .sw{height:34px;background:var(--c);box-shadow:0 0 12px var(--c);border-radius:2px}
+  .rows .nm{font-weight:700;font-size:1.2rem}
+  .rows .hk{color:#b9c4cb}
+  .rows .mt{font-size:.78rem;color:var(--steel);text-align:right}
+  .rows button:hover,.rows button.hot{background:rgba(233,239,242,.04)}
+  .pubs{margin-top:56px}
+  .pubs h3{font-size:1.3rem;font-weight:700}
+  .pubs ul{list-style:none;margin-top:12px}
+  .pubs li{display:grid;grid-template-columns:9rem 1fr;gap:16px;padding:10px 0;border-bottom:1px solid rgba(233,239,242,.08);color:#c4ced4}
+  .pubs li span{font-size:.8rem;color:var(--amber);padding-top:.15rem}
+
+  /* bench */
+  .bench{background:linear-gradient(var(--deep),#0c1517 160px)}
+  .benchstage{position:relative;height:clamp(420px,58vw,720px);perspective:1700px;perspective-origin:50% 20%;overflow:hidden;margin-top:24px}
+  .mat{position:absolute;left:50%;top:50%;width:1800px;height:1000px;margin:-500px 0 0 -900px;transform-style:preserve-3d;border-radius:14px;
+    background:
+      repeating-linear-gradient(0deg,transparent 0 49px,rgba(255,255,255,.12) 49px 50px),
+      repeating-linear-gradient(90deg,transparent 0 49px,rgba(255,255,255,.12) 49px 50px),
+      repeating-linear-gradient(0deg,transparent 0 9px,rgba(255,255,255,.04) 9px 10px),
+      repeating-linear-gradient(90deg,transparent 0 9px,rgba(255,255,255,.04) 9px 10px),
+      var(--mat);
+    box-shadow:0 0 0 14px #18322c,0 80px 120px rgba(0,0,0,.5);transition:transform .7s cubic-bezier(.3,.7,.2,1)}
+  .scr{position:absolute;overflow:hidden}
+  .obj{position:absolute;transform-style:preserve-3d;cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+  .obj:hover,.obj:focus-visible,.obj.lift{transform:translateZ(18px)}
+  .obj:focus-visible{outline:none}
+  .obj:focus-visible .top{outline:3px solid var(--cyan);outline-offset:4px}
+  .face{position:absolute}
+  .top{left:0;top:0;width:100%;height:100%;overflow:hidden}
+  .shadow{position:absolute;inset:6px;background:rgba(0,0,0,.45);filter:blur(10px);transform:translate(10px,14px)}
+  .label{position:absolute;font-weight:700;font-size:22px;background:var(--amber);color:#2a1a05;padding:3px 10px;border-radius:3px;white-space:nowrap}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .pills button{font:inherit;font-size:.95rem;background:none;color:var(--paper);border:1px solid rgba(233,239,242,.25);border-radius:999px;padding:.4rem .9rem;cursor:pointer}
+  .pills button:hover{border-color:var(--amber);color:var(--amber)}
+
+  /* theatre */
+  .stagebit{position:relative;overflow:hidden;background:#0b0a0d}
+  .stagebit .spot{position:absolute;inset:0;background:radial-gradient(ellipse 460px 560px at 74% 0%,rgba(255,180,94,.17),transparent 70%);pointer-events:none}
+  .stagebit .wrap{position:relative;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:start}
+  .stagebit .intro2 p{color:#c4ced4;font-size:1.1rem;max-width:32rem;margin-top:1rem}
+  .stagebit .fatal{margin-top:1.4rem;font-size:.85rem;color:var(--steel);max-width:32rem}
+  .bill{list-style:none;border-top:1px solid rgba(255,180,94,.35)}
+  .bill li{display:grid;grid-template-columns:4.5rem 1fr;gap:6px 20px;padding:20px 0;border-bottom:1px solid rgba(255,180,94,.18)}
+  .bill .yr{font-size:.85rem;color:var(--amber);padding-top:.35rem}
+  .bill .ttl{font-size:1.5rem;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+  .bill .ttl small{display:block;font-size:.95rem;font-weight:400;color:#aab6bd;letter-spacing:0;margin-top:.2rem}
+  .bill .rl{grid-column:2;color:#c4ced4}
+  .bill .aw{grid-column:2;justify-self:start;font-size:.78rem;color:var(--amber);border:1px solid rgba(255,180,94,.45);padding:.2rem .55rem;border-radius:4px;margin-top:.2rem}
+  .bill .plays{display:flex;flex-wrap:wrap;gap:8px;grid-column:2;margin-top:.3rem}
+  .bill .plays span{font-size:1.15rem;font-weight:700;padding:.25rem .7rem;border-radius:4px;background:rgba(255,180,94,.1)}
+
+  footer{padding:96px var(--pad) 64px;border-top:1px solid rgba(233,239,242,.07)}
+  footer .links{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;list-style:none}
+  footer .links a{display:inline-block;text-decoration:none;padding:.6rem 1rem;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(233,239,242,.25)}
+  footer .links a:hover{box-shadow:inset 0 0 0 1px var(--cyan);color:var(--cyan)}
+  footer .note{margin-top:20px;font-size:.8rem;color:var(--steel)}
+
+  /* case-study drawer */
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .25s;z-index:30}
+  .scrim.on{opacity:1;pointer-events:auto}
+  .scrim.light{background:rgba(0,0,0,.12)}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(520px,100vw);background:var(--graphite);z-index:31;overflow:auto;padding:36px 34px 48px;
+    transform:translateX(102%);transition:transform .35s cubic-bezier(.2,.8,.2,1);border-left:1px solid rgba(233,239,242,.1)}
+  .drawer.open{transform:none}
+  .drawer .cat{font-size:.8rem;color:var(--steel);padding-right:90px}
+  .drawer h3{font-size:2.4rem;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:.4rem}
+  .drawer .status{display:inline-block;margin-top:.9rem;font-size:.78rem;color:var(--amber);border:1px solid rgba(255,180,94,.45);padding:.2rem .55rem;border-radius:4px}
+  .drawer dl{margin-top:1.6rem}
+  .drawer dt{font-weight:700;margin-top:1.1rem}
+  .drawer dd{color:#c4ced4;margin-top:.2rem}
+  .drawer dd.todo{color:var(--steel);font-style:italic}
+  .stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:1.6rem}
+  .stack span{font-size:.75rem;padding:.25rem .55rem;border-radius:4px;background:rgba(25,216,232,.1);color:var(--cyan)}
+  .dlinks{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.8rem}
+  .dlinks a{text-decoration:none;padding:.55rem .9rem;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(233,239,242,.25);font-size:.95rem}
+  .close{position:absolute;top:18px;right:18px;font:inherit;background:none;color:var(--paper);border:1px solid rgba(233,239,242,.25);border-radius:6px;padding:.35rem .7rem;cursor:pointer}
+
+  @media (max-width:860px){
+    .bar nav a:not(.cv){display:none}
+    .hero{min-height:88vh}
+    .rows button{grid-template-columns:4px 1fr;gap:4px 14px}
+    .rows .sw{grid-row:span 3;height:100%}
+    .rows .mt{text-align:left}
+    .pubs li{grid-template-columns:1fr;gap:2px}
+    .stagebit .wrap{grid-template-columns:1fr;gap:32px}
+    .readout{display:none}
+    .benchstage{height:340px}
+    .drawer{top:auto;bottom:0;height:62vh;width:100%;border-left:0;border-top:1px solid rgba(233,239,242,.15);border-radius:14px 14px 0 0;transform:translateY(102%)}
+    .scrim{background:rgba(0,0,0,.25)}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.drawer,.scrim,.obj,.mat{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="logo" href="#top" data-i18n-aria="logo">
+    <svg viewBox="0 0 34 34" width="34" height="34" aria-hidden="true"><rect width="34" height="34" rx="7" fill="#111820"/><path d="M15 9.5a7.5 7.5 0 1 0 0 15" stroke="#19D8E8" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M18.5 9.5h4.2a3.6 3.6 0 0 1 0 7.2h-4.2zM18.5 16.7h5a3.9 3.9 0 0 1 0 7.8h-5z" stroke="#E9EFF2" stroke-width="2.6" fill="none" stroke-linejoin="round"/></svg>
+  </a>
+  <nav aria-label="Main">
+    <a href="#research" data-i18n="nav.research"></a>
+    <a href="#bench" data-i18n="nav.bench"></a>
+    <a href="#theatre" data-i18n="nav.theatre"></a>
+    <a href="#contact" data-i18n="nav.contact"></a>
+    <a class="cv" href="#contact" data-i18n="nav.cv"></a>
+  </nav>
+  <div class="lang" role="group" aria-label="Language / Idioma">
+    <button data-lang="pt" aria-pressed="false">PT</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<section class="hero" id="top" style="padding:0">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="intro">
+    <h1>Cristiano Barata</h1>
+    <p class="tag" data-i18n="hero.tag"></p>
+    <p class="lede" data-i18n="hero.lede"></p>
+    <div class="ctas"><a class="btn" href="#research" data-i18n="hero.cta1"></a><a class="btn ghost" href="#contact" data-i18n="hero.cta2"></a></div>
+  </div>
+  <div class="instrument">
+    <canvas id="trace" aria-hidden="true"></canvas>
+    <div class="readout mono"><span data-i18n="ro.source"></span> <b>365 nm</b><br><span data-i18n="ro.emission"></span> <b id="counts">0</b><br>τ <b>0.60 s</b></div>
+    <p class="hint mono" id="hint"></p>
+  </div>
+</section>
+
+<section id="research">
+  <h2 data-i18n="res.h"></h2>
+  <p class="sub" data-i18n="res.sub"></p>
+  <div class="bandwrap"><div class="band" aria-hidden="true"></div><div id="lines" aria-hidden="true"></div></div>
+  <ul class="rows" id="rows"></ul>
+  <div class="pubs">
+    <h3 data-i18n="pubs.h"></h3>
+    <ul data-i18n-html="pubs.list"></ul>
+  </div>
+</section>
+
+<section id="bench" class="bench">
+  <h2 data-i18n="bench.h"></h2>
+  <p class="sub" data-i18n="bench.sub"></p>
+  <div class="benchstage" id="benchstage"><div class="mat" id="mat"></div></div>
+  <div class="pills" id="pills" role="group"></div>
+</section>
+
+<section id="theatre" class="stagebit">
+  <div class="spot" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="intro2">
+      <h2 data-i18n="th.h"></h2>
+      <p data-i18n="th.p"></p>
+      <p class="fatal mono" data-i18n="th.fatal"></p>
+    </div>
+    <ul class="bill" data-i18n-html="th.bill"></ul>
+  </div>
+</section>
+
+<footer id="contact">
+  <h2 data-i18n="ct.h"></h2>
+  <p class="sub" data-i18n="ct.sub"></p>
+  <ul class="links">
+    <li><a href="#contact">Email</a></li>
+    <li><a href="https://github.com/WhySoSeriusBro">GitHub</a></li>
+    <li><a href="#contact">LinkedIn</a></li>
+    <li><a href="#contact">ORCID</a></li>
+    <li><a href="#contact">Google Scholar</a></li>
+    <li><a href="#contact" data-i18n="nav.cv"></a></li>
+  </ul>
+  <p class="note mono" data-i18n="ct.note"></p>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
+  <button class="close" id="dClose" data-i18n="d.close"></button>
+  <div class="cat mono" id="dCat"></div>
+  <h3 id="dTitle"></h3>
+  <div class="status mono" id="dStatus"></div>
+  <dl id="dBody"></dl>
+  <div class="stack mono" id="dStack"></div>
+  <div class="dlinks" id="dLinks"></div>
+</aside>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const touch=matchMedia('(hover: none)').matches;
+
+/* ---------- strings ---------- */
+const S={
+  en:{
+    logo:'Cristiano Barata, back to top',
+    'nav.research':'Research','nav.bench':'Workbench','nav.theatre':'Theatre','nav.contact':'Contact','nav.cv':'CV (PDF)',
+    'hero.tag':'Making the invisible visible.',
+    'hero.lede':'Electrical and computer engineer (MSc, NOVA FCT) and AI X Lab Manager at Nova SBE. I build instruments that turn light into data, software for cities, and the occasional stage play.',
+    'hero.cta1':'See the work','hero.cta2':'Get in touch',
+    'hint.mouse':'Move to excite the sample. Click to fire a pulse and watch it decay.','hint.touch':'Tap anywhere on the sample to fire a pulse and watch it decay.',
+    'ro.source':'source','ro.emission':'emission',
+    'res.h':'Research and work','res.sub':'Every project leaves a line in the spectrum. Pick a line or a row to open the case study.',
+    'pubs.h':'Papers and talks',
+    'pubs.list':`<li><span class="mono">2026, talk</span>LUNA at CANDO-EPE 2026 (IEEE), Budapest</li>
+      <li><span class="mono">2026, thesis</span>LUNA: A Low-Cost Microcontroller-Based Luminescence Measurement System. Defence on 25 Nov 2026</li>
+      <li><span class="mono">2027, forthcoming</span>PUREPOLIS paper, IFAC INCOM 2027</li>
+      <li><span class="mono">2027, forthcoming</span>cir4fun-reuse paper, IEEE ICE 2027</li>`,
+    'bench.h':'Workbench','bench.sub':'Personal experiments, built for my own desk and home. Pick anything up.','bench.group':'Workbench projects',
+    'th.h':'On stage',
+    'th.p':'I act, write and direct with NNT – Novo Núcleo Teatro, the theatre group of NOVA FCT. Engineering taught me precision. The stage taught me timing, and how to hold a room.',
+    'th.fatal':'FATAL is the Festival Anual de Teatro Académico de Lisboa, Portugal\'s largest academic theatre festival.',
+    'th.bill':`<li><span class="yr mono">2023</span><div class="ttl">Putrecere<small>after Shakespeare's The Tragedy of Macbeth</small></div><div class="rl">Played Macbeth.</div><div class="aw mono">Honourable Mention, FATAL 2023</div></li>
+      <li><span class="yr mono">2024</span><div class="ttl">Parábola</div><div class="rl">Cast member.</div><div class="aw mono">FATAL Prize for best show, FATAL 2024</div></li>
+      <li><span class="yr mono">Writer and director</span><div class="ttl" style="font-size:1.1rem;font-weight:500;color:#c4ced4">Plays I wrote and staged</div><div class="plays"><span>Cluedo Medieval</span><span>GrecoCluedo</span><span>Fa'afafine</span></div></li>`,
+    'ct.h':'Let\'s talk','ct.sub':'Open to conversations about instrumentation, embedded systems, digital twins and research collaborations.',
+    'ct.note':'GitHub is live. The other links are placeholders in this preview.',
+    'd.role':'My role','d.problem':'The problem','d.built':'What I built','d.result':'Result','d.close':'Close'
+  },
+  pt:{
+    logo:'Cristiano Barata, voltar ao início',
+    'nav.research':'Investigação','nav.bench':'Bancada','nav.theatre':'Teatro','nav.contact':'Contacto','nav.cv':'CV (PDF)',
+    'hero.tag':'Tornar o invisível visível.',
+    'hero.lede':'Engenheiro eletrotécnico e de computadores (mestrado, NOVA FCT) e AI X Lab Manager na Nova SBE. Construo instrumentos que transformam luz em dados, software para cidades e, de vez em quando, uma peça de teatro.',
+    'hero.cta1':'Ver o trabalho','hero.cta2':'Entrar em contacto',
+    'hint.mouse':'Passe o rato para excitar a amostra. Clique para disparar um impulso e ver o decaimento.','hint.touch':'Toque na amostra para disparar um impulso e ver o decaimento.',
+    'ro.source':'fonte','ro.emission':'emissão',
+    'res.h':'Investigação e trabalho','res.sub':'Cada projeto deixa uma risca no espetro. Clique numa risca ou numa linha para abrir o caso de estudo.',
+    'pubs.h':'Artigos e apresentações',
+    'pubs.list':`<li><span class="mono">2026, apresentação</span>LUNA na CANDO-EPE 2026 (IEEE), Budapeste</li>
+      <li><span class="mono">2026, dissertação</span>LUNA: A Low-Cost Microcontroller-Based Luminescence Measurement System. Defesa a 25 nov 2026</li>
+      <li><span class="mono">2027, em preparação</span>Artigo sobre o PUREPOLIS, IFAC INCOM 2027</li>
+      <li><span class="mono">2027, em preparação</span>Artigo sobre o cir4fun-reuse, IEEE ICE 2027</li>`,
+    'bench.h':'Bancada','bench.sub':'Experiências pessoais, feitas para a minha secretária e para casa. Pegue no que quiser.','bench.group':'Projetos da bancada',
+    'th.h':'Em palco',
+    'th.p':'Represento, escrevo e enceno no NNT – Novo Núcleo Teatro, o grupo de teatro da NOVA FCT. A engenharia ensinou-me precisão. O palco ensinou-me ritmo, e a prender uma sala.',
+    'th.fatal':'O FATAL é o Festival Anual de Teatro Académico de Lisboa, o maior festival de teatro académico do país.',
+    'th.bill':`<li><span class="yr mono">2023</span><div class="ttl">Putrecere<small>a partir de A Tragédia de Macbeth, de Shakespeare</small></div><div class="rl">Interpretei Macbeth.</div><div class="aw mono">Menção Honrosa, FATAL 2023</div></li>
+      <li><span class="yr mono">2024</span><div class="ttl">Parábola</div><div class="rl">Elenco.</div><div class="aw mono">Prémio FATAL para melhor espetáculo, FATAL 2024</div></li>
+      <li><span class="yr mono">Texto e encenação</span><div class="ttl" style="font-size:1.1rem;font-weight:500;color:#c4ced4">Peças que escrevi e encenei</div><div class="plays"><span>Cluedo Medieval</span><span>GrecoCluedo</span><span>Fa'afafine</span></div></li>`,
+    'ct.h':'Vamos falar','ct.sub':'Disponível para conversas sobre instrumentação, sistemas embebidos, gémeos digitais e colaborações de investigação.',
+    'ct.note':'O GitHub já é o real. Os restantes links são provisórios nesta preview.',
+    'd.role':'O meu papel','d.problem':'O problema','d.built':'O que construí','d.result':'Resultado','d.close':'Fechar'
+  }
+};
+const TODO='__todo__';
+const PR={
+  luna:{name:'LUNA',nm:465,stack:['BPW21 photodiode','LM6142 TIA, Rf 300 kΩ','ADS1115 16-bit ADC','ESP32-WROOM-32E','Wi-Fi web dashboard','CadQuery enclosure'],
+   en:{hook:'Making light measurable with accessible hardware.',meta:'MSc thesis, NOVA FCT',cat:'MSc thesis, NOVA FCT',status:'Defence scheduled, 25 Nov 2026',role:'Sole developer: analog front-end, firmware, enclosure, web dashboard',
+     problem:'Luminescence measurement usually needs a benchtop fluorimeter that costs thousands and stays closed to modification.',
+     built:'A BPW21 photodiode feeds an LM6142 transimpedance amplifier and an ADS1115 16-bit ADC, read by an ESP32 that serves a live web dashboard over its own Wi-Fi, with calibration and CSV export. Optics and electronics sit in two friction-fit 3D-printed modules with a 90° excitation and detection geometry.',
+     result:'Presented at CANDO-EPE 2026 (IEEE) in Budapest. Practical detection limit around 1 nW (3σ) in dark-box tests, limited by baseline thermal drift. Tested with Nile Red, fluorescein and a photochromic spiropyran. Bill of materials around €45.',links:['Thesis (PDF)','CANDO-EPE slides','Repository']},
+   pt:{hook:'Tornar a luz mensurável com hardware acessível.',meta:'Dissertação, NOVA FCT',cat:'Dissertação de mestrado, NOVA FCT',status:'Defesa marcada, 25 nov 2026',role:'Desenvolvimento integral: front-end analógico, firmware, encapsulamento e dashboard web',
+     problem:'Medir luminescência exige normalmente um fluorímetro de bancada que custa milhares de euros e não se pode modificar.',
+     built:'Um fotodíodo BPW21 alimenta um amplificador de transimpedância LM6142 e um ADC de 16 bits ADS1115, lido por um ESP32 que serve um dashboard web em tempo real na sua própria rede Wi-Fi, com calibração e exportação CSV. A ótica e a eletrónica estão em dois módulos impressos em 3D, encaixados por fricção, com geometria de excitação e deteção a 90°.',
+     result:'Apresentado na CANDO-EPE 2026 (IEEE), em Budapeste. Limite de deteção prático de cerca de 1 nW (3σ) em câmara escura, limitado pela deriva térmica da linha de base. Testado com Nile Red, fluoresceína e um espiropirano fotocrómico. Custo de componentes de cerca de 45 €.',links:['Dissertação (PDF)','Slides CANDO-EPE','Repositório']}},
+  lab:{name:'AI X Lab',nm:495,stack:['Lab operations','AI tooling','Robotics','Prototyping'],
+   en:{hook:'Putting AI and robots in business students\' hands.',meta:'Lab Manager, Nova SBE, since Nov 2026',cat:'Nova SBE',status:'Current role, since Nov 2026',role:'Lab Manager',
+     problem:'Business students hear about AI every day but rarely get to build with it.',built:'I run the lab: equipment, projects, and the path from an idea to a working demo.',result:'Represented the lab at Estoril Conferences, October 2026.',links:['AI X Lab']},
+   pt:{hook:'Pôr IA e robôs nas mãos de estudantes de gestão.',meta:'Lab Manager, Nova SBE, desde nov 2026',cat:'Nova SBE',status:'Função atual, desde nov 2026',role:'Lab Manager',
+     problem:'Os estudantes de gestão ouvem falar de IA todos os dias, mas raramente constroem algo com ela.',built:'Faço a gestão do laboratório: equipamento, projetos e o caminho de uma ideia até uma demonstração que funciona.',result:'Representei o laboratório nas Estoril Conferences, em outubro de 2026.',links:['AI X Lab']}},
+  twins:{name:'Digital twins',namePt:'Gémeos digitais',nm:530,stack:['Asset Administration Shell','FA³ST Service','ESP32-C6','ESP8266','ESP32-S2','MQTT','OPC UA','Eclipse EDC','PostgreSQL','Docker'],
+   en:{hook:'Connecting physical machines to standard digital twins.',meta:'UNINOVA, Industry 4.0',cat:'UNINOVA, Industry 4.0',status:'Research, completed',role:'Researcher',
+     problem:'Industrial assets rarely have a consistent, interoperable digital representation that other companies can query under agreed terms.',
+     built:'An ESP32-C6 publishes over MQTT to FA³ST Service, which exposes an Asset Administration Shell over REST and OPC UA. An Eclipse EDC provider and consumer then negotiate a contract over the Dataspace Protocol before data flows. Extended to two simulated machines, a press on an ESP8266 and a water system on an ESP32-S2, with a PostgreSQL historian.',
+     result:'All five FA³ST stages running with live data: semantics, asset connections, OPC UA, persistence and message bus.',links:['Repository','Tutorial (PDF)']},
+   pt:{hook:'Ligar máquinas físicas a gémeos digitais normalizados.',meta:'UNINOVA, Indústria 4.0',cat:'UNINOVA, Indústria 4.0',status:'Investigação, concluída',role:'Investigador',
+     problem:'Os ativos industriais raramente têm uma representação digital consistente e interoperável que outras empresas possam consultar em condições acordadas.',
+     built:'Um ESP32-C6 publica por MQTT para o FA³ST Service, que expõe uma Asset Administration Shell por REST e OPC UA. Depois, um provider e um consumer Eclipse EDC negociam um contrato pelo Dataspace Protocol antes de os dados circularem. Alargado a duas máquinas simuladas, uma prensa num ESP8266 e um sistema de água num ESP32-S2, com histórico em PostgreSQL.',
+     result:'As cinco fases do FA³ST a funcionar com dados reais: semântica, ligações aos ativos, OPC UA, persistência e message bus.',links:['Repositório','Tutorial (PDF)']}},
+  purepolis:{name:'PUREPOLIS',nm:575,stack:['React 19','Vite','Next.js 16','Supabase','PostGIS','RLS','Web Push','PWA','Leaflet'],
+   en:{hook:'Civic questionnaires that appear where they matter.',meta:'UNINOVA, paper forthcoming',cat:'UNINOVA, citizen science',status:'Paper forthcoming, IFAC INCOM 2027',role:'Full-stack developer',
+     problem:'Cities struggle to ask citizens the right question at the right place, and to see the answers on a map.',
+     built:'A PWA with three roles. Cities draw zones and schedule questionnaires; citizens inside a zone get them by geofence or Web Push; daily and weekly statistics land in the city\'s dashboard. React 19 front-end, API-only Next.js 16 back-end, Supabase with PostGIS and row-level security.',
+     result:'Piloted with demo cities in Porto and Faro, then handed over to UNINOVA\'s infrastructure. Paper in preparation for IFAC INCOM 2027.',links:['Live app','Paper (when published)']},
+   pt:{hook:'Questionários cívicos que aparecem onde importam.',meta:'UNINOVA, artigo em preparação',cat:'UNINOVA, ciência cidadã',status:'Artigo em preparação, IFAC INCOM 2027',role:'Programador full-stack',
+     problem:'As cidades têm dificuldade em fazer a pergunta certa no sítio certo aos cidadãos, e em ver as respostas num mapa.',
+     built:'Uma PWA com três papéis. As cidades desenham zonas e agendam questionários; os cidadãos dentro de uma zona recebem-nos por geofence ou Web Push; as estatísticas diárias e semanais chegam ao painel da cidade. Front-end em React 19, back-end Next.js 16 só de API, Supabase com PostGIS e row-level security.',
+     result:'Testado com cidades de demonstração no Porto e em Faro, e depois passado para a infraestrutura da UNINOVA. Artigo em preparação para a IFAC INCOM 2027.',links:['Aplicação','Artigo (quando publicado)']}},
+  cir4fun:{name:'cir4fun-reuse',nm:615,stack:['React','Vite','PWA','Next.js','PostGIS','Leaflet','jsPDF','PT/EN'],
+   en:{hook:'Giving furniture and objects a second life.',meta:'UNINOVA, paper forthcoming',cat:'UNINOVA, circular economy, EU-funded',status:'Live in Guimarães, paper forthcoming at IEEE ICE 2027',role:'Full-stack developer',
+     problem:'Reusable objects end up as waste because collection, triage and reuse happen in separate places with no shared record.',
+     built:'A municipal service with three roles: citizens request a collection, the municipality triages and assigns, institutions collect. Items marked for reuse or repair go to a public Showcase before anyone else gets them. Request splitting, PDF reports, Portuguese and English interface.',
+     result:'Running for the municipality of Guimarães on UNINOVA\'s GRIS infrastructure. Paper in preparation for IEEE ICE 2027.',links:['Showcase','Paper (when published)']},
+   pt:{hook:'Dar uma segunda vida a móveis e objetos.',meta:'UNINOVA, artigo em preparação',cat:'UNINOVA, economia circular, financiamento UE',status:'Em produção em Guimarães, artigo em preparação para a IEEE ICE 2027',role:'Programador full-stack',
+     problem:'Objetos reutilizáveis acabam no lixo porque a recolha, a triagem e a reutilização acontecem em sítios diferentes, sem registo comum.',
+     built:'Um serviço municipal com três papéis: o cidadão pede a recolha, a Câmara faz a triagem e atribui, a instituição recolhe. Os objetos destinados a reutilizar ou reparar vão para uma montra pública, o Showcase. Divisão de pedidos, relatórios em PDF, interface em português e inglês.',
+     result:'Em funcionamento para a Câmara Municipal de Guimarães, na infraestrutura GRIS da UNINOVA. Artigo em preparação para a IEEE ICE 2027.',links:['Showcase','Artigo (quando publicado)']}},
+  gestures:{name:'Gesture lights',namePt:'Luzes por gestos',stack:['Raspberry Pi 5','Camera module','Hand tracking','Govee'],
+   en:{hook:'One gesture on, another off.',cat:'Raspberry Pi 5, personal project',status:'In progress',role:'Hardware and software',problem:'Switching the bedroom lights means finding a phone or asking a voice assistant.',
+     built:'A camera on a Raspberry Pi 5 watches for two distinct hand gestures, one to switch the Govee lights on and one to switch them off.',result:TODO+'Add a demo video.',links:['Repository']},
+   pt:{hook:'Um gesto liga, outro desliga.',cat:'Raspberry Pi 5, projeto pessoal',status:'Em curso',role:'Hardware e software',problem:'Mudar a luz do quarto obriga a procurar o telemóvel ou a pedir a um assistente de voz.',
+     built:'Uma câmara num Raspberry Pi 5 deteta dois gestos de mão distintos, um para acender as luzes Govee e outro para as apagar.',result:TODO+'Acrescentar um vídeo de demonstração.',links:['Repositório']}},
+  trmnl:{name:'TRMNL',stack:['TRMNL 7.5" e-ink','Terminus (self-hosted)','Open-Meteo','Docker'],
+   en:{hook:'A quiet display for information that matters.',cat:'Self-hosted, personal project',status:'Running at home',role:'Server setup and plugin development',problem:'Useful information is scattered across apps and notifications that all compete for attention.',
+     built:'My own Terminus server drives a 7.5-inch TRMNL e-ink display, with a custom weather plugin built on the Open-Meteo API.',result:'On my desk, refreshing on its own schedule, no cloud account needed.',links:['Plugin code']},
+   pt:{hook:'Um ecrã discreto para a informação que importa.',cat:'Autoalojado, projeto pessoal',status:'Em funcionamento em casa',role:'Configuração do servidor e desenvolvimento do plugin',problem:'A informação útil anda espalhada por apps e notificações que competem todas pela atenção.',
+     built:'O meu próprio servidor Terminus alimenta um ecrã e-ink TRMNL de 7,5 polegadas, com um plugin de meteorologia feito sobre a API Open-Meteo.',result:'Na secretária, a atualizar sozinho, sem conta na cloud.',links:['Código do plugin']}},
+  p30:{name:'Lights dashboard',namePt:'Painel de luzes',stack:['Huawei P30 Pro','Android','Govee'],
+   en:{hook:'An old flagship phone, reborn as a light switch.',cat:'Android, personal project',status:'Personal project',role:'Design and development',problem:'A retired phone sits in a drawer while the lights need a physical control.',
+     built:'A Huawei P30 Pro on a desk stand becomes a permanent dashboard for the Govee lights at home.',result:TODO+'Add a photo of the dashboard on the desk.',links:['Repository']},
+   pt:{hook:'Um topo de gama antigo, transformado em interruptor.',cat:'Android, projeto pessoal',status:'Projeto pessoal',role:'Design e desenvolvimento',problem:'Um telemóvel reformado fica na gaveta enquanto as luzes precisam de um comando físico.',
+     built:'Um Huawei P30 Pro num suporte de secretária passa a ser o painel permanente das luzes Govee da casa.',result:TODO+'Acrescentar uma fotografia do painel na secretária.',links:['Repositório']}},
+  tigtag:{name:'TigTag',stack:['Android','NFC','YAML macros','JavaScript','GitHub sync','MCP server','Govee LAN API'],
+   en:{hook:'Tap the door frame, the kitchen light answers.',cat:'Android, personal project',status:'Personal project',role:'Design and development',problem:'Automation apps like MacroDroid are powerful but too fiddly for two small daily routines.',
+     built:'My own Android app. Two NFC tags at the front door: one toggles the kitchen light over the Govee LAN API, the other opens the bus route to work. Macros are declarative YAML plus JavaScript, synced from a GitHub repo, and Claude can push new ones through an MCP server.',result:TODO+'Add a short demo video.',links:['Repository','Demo video']},
+   pt:{hook:'Um toque na porta, a luz da cozinha responde.',cat:'Android, projeto pessoal',status:'Projeto pessoal',role:'Design e desenvolvimento',problem:'Apps de automação como o MacroDroid são poderosas, mas complicadas demais para duas rotinas pequenas.',
+     built:'Uma app Android própria. Duas tags NFC à entrada de casa: uma alterna a luz da cozinha pela API LAN da Govee, a outra abre o caminho de autocarro para o trabalho. As macros são YAML declarativo com JavaScript, sincronizadas a partir de um repositório GitHub, e o Claude pode enviar macros novas por um servidor MCP.',result:TODO+'Acrescentar um vídeo curto de demonstração.',links:['Repositório','Vídeo']}},
+  arvore:{name:'Árvore QR',stack:['Web','Pixel art','Voxels','Single HTML file'],
+   en:{hook:'QR codes that grow into tiny worlds.',cat:'Web, personal project',status:'Personal project',role:'Design and development',problem:'QR codes work, but nobody wants to look at them.',
+     built:'A generator that draws a working QR code in pixel art, with a garden and a 3D voxel tree growing out of it.',result:TODO+'Embed the live generator here.',links:['Try it']},
+   pt:{hook:'Códigos QR que crescem em pequenos mundos.',cat:'Web, projeto pessoal',status:'Projeto pessoal',role:'Design e desenvolvimento',problem:'Os códigos QR funcionam, mas ninguém gosta de olhar para eles.',
+     built:'Um gerador que desenha um código QR funcional em pixel art, com um jardim e uma árvore 3D em voxels a crescer a partir dele.',result:TODO+'Incorporar aqui o gerador ao vivo.',links:['Experimentar']}},
+  planner:{name:'Team Planner',namePt:'Planner da equipa',stack:['Supabase','Vercel','PWA','Push notifications','Email'],
+   en:{hook:'Microsoft Planner, rebuilt for how my team works.',cat:'Web app, team tool',status:'Built for my team',role:'Design and development',problem:'The team liked Planner but needed things it does not do: emails when a task is done, monthly summaries per plan, recurring tasks.',
+     built:'A standalone Planner-style web app: one team with several plans, permissions per plan, boards, comments, file attachments, recurring tasks, push and in-app notifications, and an email to the task\'s creator when it is done.',result:TODO+'Add usage numbers from the team.',links:['Live app','Repository']},
+   pt:{hook:'O Planner da Microsoft, refeito à medida da equipa.',cat:'Web app, ferramenta de equipa',status:'Feito para a equipa',role:'Design e desenvolvimento',problem:'A equipa gostava do Planner, mas precisava do que ele não faz: email quando uma tarefa é concluída, resumo mensal por plano, tarefas recorrentes.',
+     built:'Uma web app independente ao estilo do Planner: uma equipa com vários planos, permissões por plano, quadros, comentários, anexos, tarefas recorrentes, notificações push e na app, e email para quem criou a tarefa quando ela é concluída.',result:TODO+'Acrescentar números de utilização da equipa.',links:['Aplicação','Repositório']}},
+  gerador:{name:'Institutional Generator',namePt:'Gerador Institucional',stack:['Web app','Agenda scraping','Word generation','Netlify'],
+   en:{hook:'From the faculty agenda to a finished newsletter.',cat:'Web app, NOVA FCT',status:'Internal tool',role:'Design and development',problem:'Building the faculty newsletter meant copying every agenda event by hand into teasers and a Word document.',
+     built:'A web app that extracts the NOVA FCT agenda and generates the newsletter teasers and the Word document automatically.',result:TODO+'Add how much time it saves per issue.',links:['Live app']},
+   pt:{hook:'Da agenda da faculdade à newsletter pronta.',cat:'Web app, NOVA FCT',status:'Ferramenta interna',role:'Design e desenvolvimento',problem:'Fazer a newsletter da faculdade obrigava a copiar à mão cada evento da agenda para teasers e para um documento Word.',
+     built:'Uma web app que extrai a agenda da NOVA FCT e gera automaticamente os teasers da newsletter e o documento Word.',result:TODO+'Acrescentar quanto tempo poupa por edição.',links:['Aplicação']}},
+  lusonutri:{name:'LusoNutri',stack:['Web app'],
+   en:{hook:'Nutrition, in Portuguese.',cat:'Web app, personal project',status:'New, November 2026',role:'Design and development',problem:TODO+'Describe the problem LusoNutri solves.',
+     built:TODO+'Describe what LusoNutri does and how it is built.',result:TODO+'Add the result or current status.',links:['Live app']},
+   pt:{hook:'Nutrição, em português.',cat:'Web app, projeto pessoal',status:'Novo, novembro 2026',role:'Design e desenvolvimento',problem:TODO+'Descrever o problema que o LusoNutri resolve.',
+     built:TODO+'Descrever o que o LusoNutri faz e como está construído.',result:TODO+'Acrescentar o resultado ou o estado atual.',links:['Aplicação']}},
+  homehunter:{name:'HomeHunter',stack:['FastAPI','Next.js (static)','Scrapers','Telegram bot','Routing'],
+   en:{hook:'Eight rental portals, one honest list.',cat:'Web app, personal project',status:'Search closed',role:'Design and development',problem:'Flat hunting meant refreshing eight portals a day and guessing distances that listings never state.',
+     built:'A rental aggregator with a FastAPI back-end and a static Next.js front-end, pulling Idealista, Imovirtual, OLX, Casa Sapo, SuperCasa, CustoJusto, RE/MAX and ERA, with full filters and Telegram alerts for new listings. Walking distance to the station is a real route when the listing gives an address, and empty when it does not. The rule: never invent a value.',
+     result:'Used for my own move to the Cascais line. The search is over.',links:['Repository']},
+   pt:{hook:'Oito portais de arrendamento, uma lista honesta.',cat:'Web app, projeto pessoal',status:'Procura encerrada',role:'Design e desenvolvimento',problem:'Procurar casa obrigava a atualizar oito portais por dia e a adivinhar distâncias que os anúncios nunca dizem.',
+     built:'Um agregador de arrendamento com back-end FastAPI e front-end Next.js estático, que recolhe do Idealista, Imovirtual, OLX, Casa Sapo, SuperCasa, CustoJusto, RE/MAX e ERA, com filtros completos e alertas no Telegram para anúncios novos. A distância a pé até à estação é uma rota real quando o anúncio dá morada, e fica vazia quando não dá. A regra: nunca inventar um valor.',
+     result:'Usado na minha própria mudança para a Linha de Cascais. A procura terminou.',links:['Repositório']}},
+  expo:{name:'EXPO FCT 3D map',namePt:'Mapa 3D da EXPO FCT',stack:['Three.js','React Three Fiber','OpenStreetMap','GPS','QR codes','PT/EN'],
+   en:{hook:'The open-day campus map, in 3D and in your pocket.',cat:'Web, NOVA FCT open day',status:'In planning',role:'Design and development',problem:'Secondary-school visitors get a paper map and lose their way between departments.',
+     built:'An interactive low-poly 3D model of the NOVA FCT campus built from OpenStreetMap, with real GPS on campus or virtual navigation, course information per building, and a stamp hunt with QR codes at the stands.',result:TODO+'Add the launch edition and visitor numbers.',links:['Prototype']},
+   pt:{hook:'O mapa do dia aberto, em 3D e no bolso.',cat:'Web, dia aberto da NOVA FCT',status:'Em planeamento',role:'Design e desenvolvimento',problem:'Os visitantes do secundário recebem um mapa em papel e perdem-se entre departamentos.',
+     built:'Um modelo 3D low-poly interativo do campus da NOVA FCT, feito a partir do OpenStreetMap, com GPS real no campus ou navegação virtual, informação dos cursos por edifício e um peddy-paper com QR codes nos stands.',result:TODO+'Acrescentar a edição de estreia e o número de visitantes.',links:['Protótipo']}}
+};
+const researchKeys=['luna','lab','twins','purepolis','cir4fun'];
+const benchKeys=['luna','twins','gestures','trmnl','p30','tigtag','arvore','purepolis','cir4fun','planner','gerador','homehunter','lusonutri','expo'];
+
+let lang='en';
+try{lang=localStorage.getItem('cb-lang')||''}catch(e){}
+if(lang!=='pt'&&lang!=='en')lang=(navigator.language||'en').toLowerCase().startsWith('pt')?'pt':'en';
+const T=k=>S[lang][k];
+const nameOf=p=>lang==='pt'&&p.namePt?p.namePt:p.name;
+
+/* ---------- drawer ---------- */
+const drawer=document.getElementById('drawer'),scrim=document.getElementById('scrim');let lastFocus=null,current=null;
+function fillCase(k){
+  const p=PR[k],Lg=p[lang];
+  dCat.textContent=Lg.cat;dTitle.textContent=nameOf(p);dStatus.textContent=Lg.status;
+  const dd=t=>{const [a,b]=t.split(TODO);return (a?`<dd>${a}</dd>`:'')+(b!==undefined?`<dd class="todo">${b}</dd>`:'')};
+  dBody.innerHTML=`<dt>${T('d.role')}</dt><dd>${Lg.role}</dd><dt>${T('d.problem')}</dt>${dd(Lg.problem)}<dt>${T('d.built')}</dt>${dd(Lg.built)}<dt>${T('d.result')}</dt>${dd(Lg.result)}`;
+  dStack.innerHTML=p.stack.map(s=>`<span>${s}</span>`).join('');
+  dLinks.innerHTML=Lg.links.map(l=>`<a href="#contact">${l}</a>`).join('');
+}
+function openCase(k,fromBench){
+  if(drawer.hidden)lastFocus=document.activeElement;
+  current=k;fillCase(k);
+  drawer.hidden=false;requestAnimationFrame(()=>{drawer.classList.add('open');scrim.classList.add('on')});
+  scrim.classList.toggle('light',!!fromBench);
+  if(fromBench)focusOn(k);else if(focusKey)unfocus();
+  dClose.focus();
+}
+function closeCase(){current=null;drawer.classList.remove('open');scrim.classList.remove('on');setTimeout(()=>{drawer.hidden=true;unfocus()},reduce?0:350);lastFocus&&lastFocus.focus()}
+dClose.onclick=closeCase;scrim.onclick=closeCase;
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!drawer.hidden)closeCase()});
+
+/* ---------- spectrum ---------- */
+function wl(n){
+  let r=0,g=0,b=0;
+  if(n<440){r=-(n-440)/60;b=1}else if(n<490){g=(n-440)/50;b=1}else if(n<510){g=1;b=-(n-510)/20}
+  else if(n<580){r=(n-510)/70;g=1}else if(n<645){r=1;g=-(n-645)/65}else{r=1}
+  return [r,g,b].map(v=>Math.round(255*Math.pow(v,.8)));
+}
+const linesEl=document.getElementById('lines'),rowsEl=document.getElementById('rows');
+function buildResearch(){
+  linesEl.innerHTML='';rowsEl.innerHTML='';
+  researchKeys.forEach(k=>{
+    const p=PR[k],c=`rgb(${wl(p.nm).join(',')})`,L=p[lang];
+    const l=document.createElement('button');l.className='line';l.tabIndex=-1;l.style.left=((p.nm-420)/260*100)+'%';l.style.setProperty('--c',c);
+    l.onclick=()=>openCase(k);linesEl.appendChild(l);
+    const li=document.createElement('li'),b=document.createElement('button');b.style.setProperty('--c',c);
+    b.innerHTML=`<span class="sw"></span><span class="nm">${nameOf(p)}</span><span class="hk">${L.hook}</span><span class="mt mono">${L.meta}</span>`;
+    b.onclick=()=>openCase(k);
+    const hot=on=>{l.classList.toggle('hot',on);b.classList.toggle('hot',on)};
+    [b,l].forEach(el=>{el.addEventListener('pointerenter',()=>hot(true));el.addEventListener('pointerleave',()=>hot(false))});
+    b.addEventListener('focus',()=>hot(true));b.addEventListener('blur',()=>hot(false));
+    li.appendChild(b);rowsEl.appendChild(li);
+  });
+}
+
+/* ---------- workbench ---------- */
+const mat=document.getElementById('mat'),stageEl=document.getElementById('benchstage'),pills=document.getElementById('pills');
+const MW=1800,MH=1000;
+function rgb(hex){const n=parseInt(hex.slice(1),16);return [(n>>16)&255,(n>>8)&255,n&255]}
+function shade(hex,f,a=1){return `rgba(${rgb(hex).map(v=>Math.round(v*f)).join(',')},${a})`}
+let groups={},bboxes={},curKey=null;
+function box({key,x,y,w,d,h,col,top='',south='',radius=0,glow='',z=0,alpha=1,shadow=true}){
+  const o=document.createElement('div');o.className='obj';o.dataset.key=key;
+  Object.assign(o.style,{left:x+'px',top:y+'px',width:w+'px',height:d+'px'});
+  if(shadow&&z<6)o.innerHTML=`<div class="shadow" style="border-radius:${radius}px;${glow}"></div>`;
+  const Z=z?`translateZ(${z}px) `:'';
+  const f=(css,html='')=>{const e=document.createElement('div');e.className='face';e.style.cssText=css;e.innerHTML=html;o.appendChild(e);return e};
+  f(`left:0;top:0;width:${w}px;height:${h}px;transform-origin:0 0;transform:${Z}rotateX(90deg);background:${shade(col,.55,alpha)}`);
+  f(`left:0;top:0;width:${h}px;height:${d}px;transform-origin:0 0;transform:${Z}rotateY(-90deg);background:${shade(col,.6,alpha)}`);
+  f(`left:${w}px;top:0;width:${h}px;height:${d}px;transform-origin:0 0;transform:${Z}rotateY(-90deg);background:${shade(col,.72,alpha)}`);
+  f(`left:0;top:${d-h}px;width:${w}px;height:${h}px;transform-origin:0 100%;transform:${Z}rotateX(-90deg);background:${shade(col,.82,alpha)};overflow:hidden`,south);
+  f(`transform:translateZ(${h+z}px);background:${shade(col,1,alpha)};border-radius:${radius}px`,top).classList.add('top');
+  mat.appendChild(o);
+  (groups[key]=groups[key]||[]).push(o);
+  const b=bboxes[key]||(bboxes[key]={x0:1e9,y0:1e9,x1:-1e9,y1:-1e9});
+  b.x0=Math.min(b.x0,x);b.y0=Math.min(b.y0,y);b.x1=Math.max(b.x1,x+w);b.y1=Math.max(b.y1,y+d);
+  return o;
+}
+function label(key,x,y){const l=document.createElement('div');l.className='label';l.style.left=x+'px';l.style.top=y+'px';l.textContent=nameOf(PR[key]);mat.appendChild(l)}
+/* devices */
+const scr=(html,css='')=>`<div class="scr" style="${css}">${html}</div>`;
+function phone(key,x,y,w,d,screen,col='#16191d'){box({key,x,y,w,d,h:9,col,radius:14,top:scr(screen,'inset:6px;border-radius:10px')})}
+function tablet(key,x,y,w,d,screen,col='#2a2e33'){box({key,x,y,w,d,h:8,col,radius:12,top:scr(screen,'inset:9px;border-radius:5px')})}
+function laptop(key,x,y,w,d,screen){
+  box({key,x,y,w,d,h:8,col:'#c3c8cd',radius:4,top:`<div style="position:absolute;left:14px;right:14px;top:12px;height:${Math.round(d*.52)}px;background:repeating-linear-gradient(90deg,#9ea4ab 0 15px,#b4b9bf 15px 17px),#9ea4ab;opacity:.9;border-radius:2px"></div><div style="position:absolute;left:50%;margin-left:-${Math.round(w*.18)}px;bottom:12px;width:${Math.round(w*.36)}px;height:${Math.round(d*.26)}px;background:#b3b8be;border-radius:3px"></div>`});
+  box({key,x,y:y-12,w,d:12,h:Math.round(d*.95),col:'#aeb3b9',south:scr(screen,'inset:7px 7px 10px;border-radius:2px'),shadow:false});
+}
+function monitor(key,x,y,w,h,screen){
+  box({key,x:x+w/2-70,y:y+6,w:140,d:56,h:6,col:'#2b2f35',radius:6});
+  box({key,x:x+w/2-11,y:y+12,w:22,d:12,h:30,z:6,col:'#2b2f35',shadow:false});
+  box({key,x,y,w,d:16,h,z:36,col:'#1d2025',south:scr(screen,'inset:6px 6px 9px;border-radius:2px'),shadow:false});
+}
+const L=()=>lang;
+const tt=(en,pt)=>L()==='pt'?pt:en;
+/* screens */
+function scrLuna(){return `<div style="background:#0c1a26;color:#e6f0f6;height:100%;padding:9px 8px;font:600 7px/1.3 'Bricolage Grotesque'">
+  <div style="color:#7fe0a8">BarataEletronics</div><div style="opacity:.55;font-weight:500">192.168.4.1</div>
+  <div style="font-size:21px;font-weight:800;margin-top:8px;letter-spacing:-.5px">262<span style="font-size:9px;opacity:.7"> nW</span></div>
+  <svg viewBox="0 0 80 34" style="width:100%;height:34px;margin-top:4px;background:#11263a;border-radius:3px"><polyline fill="none" stroke="#FFB45E" stroke-width="1.4" points="0,30 10,30 14,8 22,12 32,15 44,16 56,17 68,17 80,17"/></svg>
+  <div style="display:flex;gap:4px;margin-top:6px"><span style="flex:1;text-align:center;background:#19D8E8;color:#082;padding:3px 0;border-radius:3px;color:#081218">${tt('Tare','Tara')}</span><span style="flex:1;text-align:center;background:#1e3448;padding:3px 0;border-radius:3px">CSV</span></div>
+  <div style="margin-top:7px;opacity:.7">${tt('Calibration','Calibração')}  R² 0.991</div>
+  <svg viewBox="0 0 80 30" style="width:100%;height:30px;margin-top:3px;background:#11263a;border-radius:3px"><line x1="4" y1="27" x2="76" y2="4" stroke="#19D8E8" stroke-width="1"/>${[[10,24],[24,20],[38,15],[52,11],[66,7]].map(([a,b])=>`<circle cx="${a}" cy="${b}" r="1.8" fill="#FFB45E"/>`).join('')}</svg></div>`}
+function scrTwins(){return `<div style="background:#f3f5f7;color:#1c2630;height:100%;padding:10px 12px;font:600 9px/1.35 'Bricolage Grotesque'">
+  <div style="display:flex;justify-content:space-between"><b style="font-size:12px">Dataspace demo</b><span style="color:#2a8a55">${tt('contract agreed','contrato acordado')}</span></div>
+  <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:8px">${['ESP32','MQTT','FA³ST','EDC provider','EDC consumer'].map((t,i)=>`<span style="background:${i==4?'#19D8E8':'#dfe5ea'};padding:4px 6px;border-radius:3px">${t}</span>${i<4?'<span style="opacity:.4">→</span>':''}`).join('')}</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">
+   <div style="background:#fff;padding:7px;border-radius:4px"><div style="opacity:.6">ESP32-C6</div><div style="font-size:18px;font-weight:800">31.2 °C</div></div>
+   <div style="background:#fff;padding:7px;border-radius:4px"><div style="opacity:.6">${tt('Press','Prensa')}, ESP8266</div><div style="font-size:18px;font-weight:800">2.1 A</div><div style="opacity:.6">128 ${tt('cycles','ciclos')}</div></div>
+   <div style="background:#fff;padding:7px;border-radius:4px"><div style="opacity:.6">${tt('Water','Água')}, ESP32-S2</div><div style="font-size:18px;font-weight:800">3.4 L/min</div></div></div>
+  <svg viewBox="0 0 300 40" style="width:100%;height:44px;margin-top:8px;background:#fff;border-radius:4px"><polyline fill="none" stroke="#2a6fdb" stroke-width="1.5" points="${Array.from({length:30},(_,i)=>`${i*10},${22+Math.sin(i/2.3)*9}`).join(' ')}"/></svg>
+  <div style="margin-top:6px;opacity:.55;font-size:8px">AAS /api/v3.0, OPC UA :4840, PostgreSQL historian</div></div>`}
+function scrTrmnl(){return `<div style="position:absolute;inset:9px;background:#e7e5df;color:#1a1a1a;padding:9px 11px;font:600 9px 'Bricolage Grotesque';filter:grayscale(1)">
+  <div style="display:flex;justify-content:space-between"><span>Lisboa</span><span style="opacity:.6">Open-Meteo</span></div>
+  <div style="font-weight:800;font-size:44px;line-height:1;margin-top:4px">18°</div>
+  <div style="font-weight:500;font-size:9px">${tt('Light rain after 17h','Chuva fraca depois das 17h')}</div>
+  <div style="display:flex;align-items:flex-end;gap:5px;height:34px;margin-top:8px">${[14,16,18,19,18,16,15,14].map((t,i)=>`<div style="flex:1;background:#1a1a1a;height:${(t-12)*4}px"></div>`).join('')}</div>
+  <div style="display:flex;justify-content:space-between;font-size:7px;margin-top:2px;opacity:.7"><span>12h</span><span>15h</span><span>18h</span><span>21h</span></div></div>`}
+function scrP30(){return `<div style="background:#101418;color:#e9eff2;height:100%;padding:8px 10px;font:600 8px 'Bricolage Grotesque';display:grid;grid-template-columns:1fr 1fr;gap:7px">
+  ${[[tt('Kitchen','Cozinha'),true,'#FFB45E',80],[tt('Living room','Sala'),false,'#8fb8ff',40]].map(([n,on,c,b])=>`<div style="background:${on?'#1d2a33':'#161c22'};border-radius:6px;padding:7px">
+   <div style="display:flex;justify-content:space-between;align-items:center"><span>${n}</span><span style="width:20px;height:11px;border-radius:6px;background:${on?'#19D8E8':'#3a444d'};position:relative"><i style="position:absolute;top:1.5px;${on?'right':'left'}:2px;width:8px;height:8px;border-radius:50%;background:#fff"></i></span></div>
+   <div style="opacity:.6;margin-top:4px">Govee H6008</div>
+   <div style="height:4px;border-radius:2px;background:#2b353e;margin-top:8px"><div style="width:${b}%;height:100%;border-radius:2px;background:${c}"></div></div>
+   <div style="display:flex;gap:4px;margin-top:7px">${['#fff3d6','#FFB45E','#8fb8ff','#d58cff'].map(k=>`<i style="width:11px;height:11px;border-radius:50%;background:${k};outline:${k===c?'1.5px solid #fff':'none'}"></i>`).join('')}</div></div>`).join('')}</div>`}
+function scrTigtag(){return `<div style="background:#0f1418;color:#E9EFF2;height:100%;padding:12px 9px;font:600 7.5px/1.4 'Bricolage Grotesque'">
+  <div style="font-size:12px;font-weight:800">TigTag</div><div style="opacity:.55;margin-bottom:8px">${tt('Synced from GitHub','Sincronizado do GitHub')}</div>
+  ${[[tt('Kitchen light','Luz da cozinha'),'nfc: tag-01','govee.toggle(H6008)',true],[tt('Bus to work','Autocarro para o trabalho'),'nfc: tag-02','maps.route(1612)',false],[tt('TV at 7:45','TV às 7:45'),'at: 07:45','wol + tizen.open()',false]].map(([n,t,a,on])=>`<div style="background:${on?'#13343a':'#182128'};border-radius:5px;padding:6px;margin-bottom:5px">
+   <div style="display:flex;justify-content:space-between"><b>${n}</b>${on?'<span style="color:#19D8E8">●</span>':''}</div>
+   <div style="font-family:'IBM Plex Mono';font-weight:400;font-size:6.5px;opacity:.7;margin-top:2px">${t}<br>${a}</div></div>`).join('')}</div>`}
+function scrPurepolis(){return `<div style="height:100%;position:relative;background:#e9ecef;font:600 7.5px 'Bricolage Grotesque';color:#1b2733">
+  <svg viewBox="0 0 96 200" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
+   <rect width="96" height="200" fill="#eef0ea"/><path d="M0 150 C30 140 50 165 96 150 L96 200 L0 200Z" fill="#a9cbe8"/>
+   <path d="M-5 40 L101 70 M20 0 L35 200 M70 0 L58 150 M0 110 L96 100" stroke="#fff" stroke-width="4"/>
+   <path d="M22 55 L70 48 L78 95 L30 104Z" fill="rgba(93,119,249,.22)" stroke="#5d77f9" stroke-width="1.2"/>
+   <circle cx="48" cy="76" r="3.2" fill="#e2513b" stroke="#fff" stroke-width="1"/></svg>
+  <div style="position:absolute;left:6px;right:6px;top:8px;background:#fff;border-radius:6px;padding:6px;box-shadow:0 2px 6px rgba(0,0,0,.15)">
+   <div style="color:#5d77f9">${tt('Questionnaire available here','Questionário disponível aqui')}</div><div style="font-weight:800;font-size:8.5px;margin-top:2px">Qualidade do ar no seu bairro</div>
+   <div style="margin-top:5px;background:#5d77f9;color:#fff;text-align:center;border-radius:4px;padding:3px">${tt('Answer','Responder')}</div></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:20px;background:#fff;display:flex;justify-content:space-around;align-items:center">${'<i style="width:9px;height:9px;border-radius:2px;background:#c7ced6"></i>'.repeat(5)}</div></div>`}
+function scrCir4fun(){const items=[['#8a6a4f',tt('Oak chair','Cadeira de carvalho'),''],['#4f6d8a',tt('Bookshelf','Estante'),tt('Reserved','Reservado')],['#c9b48a',tt('Side table','Mesa de apoio'),''],['#6a8a4f',tt('Floor lamp','Candeeiro de pé'),''],['#8a4f5e',tt('Armchair','Poltrona'),''],['#9aa0a6',tt('Bicycle','Bicicleta'),'']];
+  return `<div style="background:#fff;height:100%;padding:8px 10px;font:600 8px 'Bricolage Grotesque';color:#1d2b24">
+  <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:11px;color:#2f7a4f">Showcase</b><span style="opacity:.6">PT | EN</span></div>
+  <div style="opacity:.6;margin:2px 0 6px">${tt('Collected items waiting for a new home, Guimarães','Objetos recolhidos à espera de nova casa, Guimarães')}</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${items.map(([c,n,b])=>`<div style="border:1px solid #e3e7e4;border-radius:4px;overflow:hidden"><div style="height:30px;background:linear-gradient(135deg,${c},${c}cc);position:relative">${b?`<span style="position:absolute;top:3px;left:3px;background:#fff;padding:1px 3px;border-radius:2px;font-size:6px">${b}</span>`:''}</div><div style="padding:3px 4px;font-size:7px">${n}</div></div>`).join('')}</div>
+  <div style="margin-top:6px;font-size:6px;opacity:.55">Funded by the European Union, GA 101182081</div></div>`}
+function scrPlanner(){const cols=[[tt('To do','Por fazer'),[['#5d77f9',tt('Order Reachy Mini','Encomendar Reachy Mini')],['#e2513b',tt('Lab room layout','Layout da sala')],['#2f9e6b',tt('Workshop slides','Slides do workshop')]]],[tt('In progress','Em curso'),[['#FFB45E',tt('Badge firmware','Firmware dos badges')],['#5d77f9',tt('Monthly summary','Resumo mensal')]]],[tt('Done','Concluído'),[['#2f9e6b',tt('Push notifications','Notificações push')],['#9aa0a6',tt('Recurring tasks','Tarefas recorrentes')],['#e2513b',tt('File attachments','Anexos')]]]];
+  return `<div style="background:#f4f6f8;height:100%;padding:9px 11px;font:600 8.5px 'Bricolage Grotesque';color:#1c2630">
+  <div style="display:flex;justify-content:space-between"><b style="font-size:12px">Planner</b><span style="opacity:.6">AI X Lab</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:8px">${cols.map(([h,cs])=>`<div><div style="opacity:.6;margin-bottom:5px">${h}</div>${cs.map(([c,t])=>`<div style="background:#fff;border-radius:4px;padding:6px;margin-bottom:5px;border-top:3px solid ${c}">${t}<div style="display:flex;justify-content:space-between;margin-top:5px"><i style="width:10px;height:10px;border-radius:50%;background:#c7ced6"></i><span style="opacity:.5;font-size:7px">2/4</span></div></div>`).join('')}</div>`).join('')}</div></div>`}
+function scrGerador(){const ev=[['18 NOV',tt('DEEC seminar','Seminário DEEC')],['19 NOV',tt('PhD defence','Defesa de doutoramento')],['20 NOV',tt('Careers fair','Feira de emprego')],['21 NOV',tt('Open lab session','Sessão de laboratório aberto')]];
+  return `<div style="background:#fff;height:100%;padding:9px 11px;font:600 8.5px 'Bricolage Grotesque';color:#1c2630">
+  <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:11px">NOVA FCT ${tt('Institutional Generator','Gerador Institucional')}</b><span style="background:#1f5fa8;color:#fff;padding:3px 7px;border-radius:3px">${tt('Generate Word','Gerar Word')}</span></div>
+  <div style="opacity:.6;margin:4px 0 6px">${tt('Agenda extracted, 4 events this week','Agenda extraída, 4 eventos esta semana')}</div>
+  ${ev.map(([d,t])=>`<div style="display:flex;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid #eef1f4"><span style="font-family:'IBM Plex Mono';font-size:7px;color:#1f5fa8;width:40px">${d}</span><span style="flex:1">${t}</span><i style="width:10px;height:10px;border-radius:2px;background:#2f9e6b"></i></div>`).join('')}</div>`}
+function scrHome(){const rows=[['T1','Carcavelos','900 €','Idealista','6 min'],['T0','Parede','750 €','OLX','—'],['T1','Oeiras','950 €','Imovirtual','11 min'],['T1','Cascais','980 €','ERA','4 min'],['T0','Algés','820 €','Casa Sapo','—']];
+  return `<div style="background:#f7f8fa;height:100%;padding:8px 10px;font:600 8px 'Bricolage Grotesque';color:#1c2630">
+  <div style="display:flex;justify-content:space-between"><b style="font-size:11px">HomeHunter</b><span style="opacity:.6">${tt('8 portals','8 portais')}</span></div>
+  <div style="display:flex;gap:4px;margin:5px 0">${['T0, T1',tt('≤ 1000 €','≤ 1000 €'),tt('Cascais line','Linha de Cascais')].map(f=>`<span style="background:#e6ebf0;padding:2px 5px;border-radius:3px">${f}</span>`).join('')}</div>
+  ${rows.map(r=>`<div style="display:grid;grid-template-columns:18px 1fr 36px 44px 30px;gap:4px;padding:4px 0;border-bottom:1px solid #e9edf1"><b>${r[0]}</b><span>${r[1]}</span><span>${r[2]}</span><span style="opacity:.6">${r[3]}</span><span style="opacity:${r[4]==='—'?.35:.8}">${r[4]}</span></div>`).join('')}
+  <div style="margin-top:5px;opacity:.55;font-size:7px">${tt('Walking time: real route, or empty if no address','Tempo a pé: rota real, ou vazio sem morada')}</div></div>`}
+function scrNutri(){return `<div style="background:#fbfaf6;height:100%;padding:10px 11px;font:600 8.5px 'Bricolage Grotesque';color:#24301f">
+  <b style="font-size:13px;color:#4f7a2f">LusoNutri</b>
+  <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+   <svg viewBox="0 0 40 40" width="46" height="46"><circle cx="20" cy="20" r="15" fill="none" stroke="#e8e4d8" stroke-width="6"/><circle cx="20" cy="20" r="15" fill="none" stroke="#4f7a2f" stroke-width="6" stroke-dasharray="66 94" transform="rotate(-90 20 20)"/></svg>
+   <div><div style="font-size:14px;font-weight:800">1 420 kcal</div><div style="opacity:.6">${tt('of 2 000 today','de 2 000 hoje')}</div></div></div>
+  ${[[tt('Breakfast','Pequeno-almoço'),'420'],[tt('Lunch','Almoço'),'680'],[tt('Snack','Lanche'),'320']].map(([m,k])=>`<div style="display:flex;justify-content:space-between;background:#fff;border-radius:5px;padding:6px 7px;margin-top:6px"><span>${m}</span><span style="opacity:.6">${k} kcal</span></div>`).join('')}</div>`}
+function scrExpo(){return `<div style="background:#dfeaf2;height:100%;position:relative;font:600 8px 'Bricolage Grotesque';color:#17222c">
+  <svg viewBox="0 0 220 150" style="position:absolute;inset:0;width:100%;height:100%">
+   <path d="M0 110 L220 70 L220 150 L0 150Z" fill="#cfe0c4"/>
+   ${[[40,60,'#f3f1ec'],[90,48,'#f3f1ec'],[140,40,'#5d77f9'],[70,90,'#f3f1ec'],[120,80,'#f3f1ec'],[170,70,'#f3f1ec']].map(([x,y,c])=>`<g><path d="M${x} ${y} l18 -8 l18 8 l-18 8z" fill="${c}"/><path d="M${x} ${y} l18 8 v14 l-18 -8z" fill="${c==='#5d77f9'?'#4459c4':'#cfd3d8'}"/><path d="M${x+36} ${y} l-18 8 v14 l18 -8z" fill="${c==='#5d77f9'?'#3a4ca8':'#b8bdc4'}"/></g>`).join('')}
+   <circle cx="158" cy="30" r="4" fill="#e2513b" stroke="#fff"/></svg>
+  <div style="position:absolute;left:7px;top:7px;background:#fff;border-radius:4px;padding:4px 6px">${tt('Electrical Eng.','Eng. Eletrotécnica')}</div>
+  <div style="position:absolute;right:7px;bottom:7px;background:#17222c;color:#fff;border-radius:4px;padding:4px 6px">${tt('Stamps','Selos')} 3/8</div></div>`}
+
+function buildBench(){
+  mat.innerHTML='';pills.innerHTML='';groups={};bboxes={};
+  pills.setAttribute('aria-label',T('bench.group'));
+  /* LUNA: laser on its sleeve, optics module with cuvette, electronics module opened, power bank, phone with the ESP32 dashboard */
+  box({key:'luna',x:176,y:452,w:38,d:112,h:30,col:'#1b1b1e'});
+  box({key:'luna',x:184,y:438,w:22,d:124,h:20,z:30,col:'#8d939b',radius:2,shadow:false,top:`<div style="position:absolute;left:4px;right:4px;top:18px;height:10px;background:#5b6068"></div><div style="position:absolute;left:7px;bottom:2px;width:8px;height:5px;border-radius:50%;background:#7fb8ff;box-shadow:0 0 8px #3d8bff"></div>`});
+  box({key:'luna',x:120,y:560,w:150,d:130,h:95,col:'#1b1b1e',radius:3,top:`<div style="position:absolute;inset:7px;background:#0b0b0c;border-radius:2px">
+    <div style="position:absolute;left:64px;top:-7px;width:5px;height:53px;background:#5aa2ff;box-shadow:0 0 6px #3d8bff,0 0 14px #3d8bff"></div>
+    <div style="position:absolute;left:44px;top:34px;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,rgba(184,255,90,.55),transparent 70%)"></div>
+    <div style="position:absolute;right:-3px;top:46px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#2b2b40 40%,#b7bcc2 44%,#8d939b 70%)"></div>
+    <div style="position:absolute;right:3px;top:70px;font:500 7px 'IBM Plex Mono';color:#8d939b">BPW21</div></div>`});
+  box({key:'luna',x:183,y:612,w:24,d:24,h:52,z:70,col:'#c8ff70',alpha:.5,shadow:false,top:`<div style="position:absolute;inset:3px;background:rgba(220,255,140,.9);box-shadow:0 0 10px #b8ff5a"></div>`});
+  box({key:'luna',x:270,y:560,w:256,d:130,h:95,col:'#1b1b1e',radius:3,top:`<div style="position:absolute;inset:7px;background:#0b0b0c;border-radius:2px">
+    <div style="position:absolute;left:8px;top:8px;right:8px;bottom:8px;background:#f1efe9;border-radius:3px;background-image:radial-gradient(#c9c6bd 1px,transparent 1.2px);background-size:6px 6px"></div>
+    <div style="position:absolute;left:16px;top:30px;width:118px;height:52px;background:#16181b;border-radius:2px"><div style="position:absolute;left:44px;top:8px;width:40px;height:34px;background:linear-gradient(135deg,#d7dbe0,#9aa1a9);border-radius:1px"></div><div style="position:absolute;left:-4px;top:20px;width:9px;height:12px;background:#9aa1a9"></div><div style="position:absolute;right:6px;top:4px;font:500 6px 'IBM Plex Mono';color:#9aa1a9;writing-mode:vertical-rl">ESP32-WROOM-32E</div></div>
+    <div style="position:absolute;left:146px;top:22px;width:40px;height:32px;background:#1f4fb5;border-radius:2px"><div style="position:absolute;left:12px;top:9px;width:14px;height:14px;background:#111"></div><div style="position:absolute;left:3px;bottom:2px;right:3px;height:3px;background:repeating-linear-gradient(90deg,#d9b44a 0 3px,transparent 3px 5px)"></div></div>
+    <div style="position:absolute;left:198px;top:30px;width:14px;height:22px;background:#151515;border-radius:1px"><i style="position:absolute;left:4px;top:2px;width:3px;height:3px;border-radius:50%;background:#555"></i></div>
+    ${[[150,66],[166,66],[182,66]].map(([a,b])=>`<div style="position:absolute;left:${a}px;top:${b}px;width:13px;height:5px;background:repeating-linear-gradient(90deg,#d8c6a0 0 2px,#a0522d 2px 3px,#d8c6a0 3px 5px,#222 5px 6px,#d8c6a0 6px 13px);border-radius:2px"></div>`).join('')}
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 242 116"><path d="M134 54 C140 60 142 40 154 40" stroke="#e2513b" stroke-width="1.6" fill="none"/><path d="M134 62 C150 70 160 58 166 42" stroke="#2a6fdb" stroke-width="1.6" fill="none"/><path d="M186 40 C194 40 196 44 204 42" stroke="#2f9e6b" stroke-width="1.6" fill="none"/><path d="M212 44 C224 40 230 56 236 58" stroke="#FFB45E" stroke-width="1.6" fill="none"/></svg></div>`});
+  box({key:'luna',x:290,y:735,w:92,d:150,h:22,col:'#3a3f46',radius:6,top:`<div style="position:absolute;left:10px;top:12px;display:flex;gap:4px">${'<i style="width:5px;height:5px;border-radius:50%;background:#19D8E8"></i>'.repeat(3)}</div><div style="position:absolute;left:10px;bottom:12px;font:500 8px 'IBM Plex Mono';color:#aab4bd">USB 5 V</div>`});
+  phone('luna',420,730,104,205,scrLuna());
+  label('luna',122,705);
+  /* Digital twins: monitor with the dataspace dashboard + three dev boards */
+  monitor('twins',70,60,420,205,scrTwins());
+  const board=(x,y,w,d,name,mod)=>box({key:'twins',x,y,w,d,h:9,col:'#17191c',top:`<div style="position:absolute;left:8px;top:${d/2-15}px;width:36px;height:30px;background:linear-gradient(135deg,#d7dbe0,#98a0a8)"></div><div style="position:absolute;left:4px;right:4px;top:3px;height:4px;background:repeating-linear-gradient(90deg,#d9b44a 0 3px,transparent 3px 6px)"></div><div style="position:absolute;left:4px;right:4px;bottom:3px;height:4px;background:repeating-linear-gradient(90deg,#d9b44a 0 3px,transparent 3px 6px)"></div><div style="position:absolute;left:52px;top:${d/2-8}px;font:500 8px 'IBM Plex Mono';color:#c9ced3;line-height:1.2">${name}<br><span style="opacity:.6">${mod}</span></div><div style="position:absolute;right:-3px;top:${d/2-6}px;width:9px;height:12px;background:#9aa1a9"></div>`});
+  board(70,312,140,56,'ESP32-C6','DevKitC-1');
+  board(228,308,128,60,'ESP8266',tt('press','prensa'));
+  board(374,310,140,58,'ESP32-S2',tt('water','água'));
+  label('twins',290,382);
+  /* Gesture lights: Raspberry Pi 5, camera module on a stand, Govee bulb */
+  box({key:'gestures',x:560,y:250,w:170,d:115,h:16,col:'#1e7a4c',top:`<div style="position:absolute;left:14px;top:20px;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle,#1a1a1a 25%,#2c2c2c 26% 60%,#1a1a1a 61%);box-shadow:0 0 0 4px #0f0f0f"></div><div style="position:absolute;left:8px;top:5px;width:130px;height:7px;background:repeating-linear-gradient(90deg,#d9b44a 0 3px,#222 3px 6px)"></div><div style="position:absolute;right:0;top:16px;width:30px;height:24px;background:#c7ccd1"></div><div style="position:absolute;right:0;top:46px;width:30px;height:24px;background:#3d6fd6"></div><div style="position:absolute;right:0;top:76px;width:30px;height:26px;background:#c7ccd1"></div><div style="position:absolute;left:86px;top:66px;font:500 7px 'IBM Plex Mono';color:#cfe8da">Raspberry Pi 5</div>`});
+  box({key:'gestures',x:728,y:286,w:34,d:14,h:2,col:'#d6c27a',shadow:false});
+  box({key:'gestures',x:760,y:240,w:44,d:44,h:78,col:'#22262b',south:`<div style="position:absolute;left:50%;top:10px;margin-left:-10px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#4a6a8a 20%,#0b0b0b 30% 70%,#2b2f35 72%)"></div>`,top:`<div style="position:absolute;inset:6px;background:#1e7a4c"></div>`});
+  box({key:'gestures',x:832,y:226,w:74,d:74,h:104,col:'#e8e6e1',radius:37,glow:'background:rgba(255,180,94,.6);filter:blur(34px);inset:-40px',top:`<div style="position:absolute;inset:4px;border-radius:50%;background:radial-gradient(circle,#fff8e6,#ffd59a 55%,#f2b467)"></div>`});
+  label('gestures',562,382);
+  /* TRMNL */
+  box({key:'trmnl',x:560,y:70,w:240,d:26,h:160,col:'#e3e0d9',south:scrTrmnl()});
+  label('trmnl',562,112);
+  /* P30 Pro on a stand */
+  box({key:'p30',x:990,y:330,w:140,d:56,h:10,col:'#2b2f35',radius:6});
+  box({key:'p30',x:950,y:332,w:220,d:12,h:106,z:10,col:'#1a1d22',shadow:false,south:scr(scrP30(),'inset:6px 9px;border-radius:6px')});
+  label('p30',952,402);
+  /* Planner on the big monitor */
+  monitor('planner',930,40,440,225,scrPlanner());
+  label('planner',932,120);
+  /* Institutional generator: monitor + the printed Word newsletter */
+  monitor('gerador',1420,50,340,200,scrGerador());
+  box({key:'gerador',x:1632,y:130,w:128,d:180,h:2,col:'#fbfbf8',top:`<div style="padding:14px 12px;font:600 8px 'Bricolage Grotesque';color:#1f5fa8"><div style="font-weight:800;font-size:12px">${tt('Agenda','Agenda')}</div><div style="color:#555;margin-top:2px">NOVA FCT</div>${'<div style="height:4px;background:#d9dde2;margin-top:8px"></div><div style="height:4px;width:70%;background:#e6e9ec;margin-top:4px"></div>'.repeat(5)}</div>`});
+  label('gerador',1500,334);
+  /* cir4fun-reuse showcase on a laptop */
+  laptop('cir4fun',1180,380,280,175,scrCir4fun());
+  label('cir4fun',1356,594);
+  /* EXPO FCT tablet */
+  tablet('expo',1500,400,240,170,scrExpo());
+  label('expo',1548,585);
+  /* TigTag: phone + two NFC tags */
+  phone('tigtag',620,600,104,205,scrTigtag());
+  [[750,615],[750,700]].forEach(([x,y],i)=>box({key:'tigtag',x,y,w:64,d:64,h:2,col:'#f4f3ef',radius:32,top:`<svg viewBox="0 0 64 64" width="64" height="64"><path d="M24 22c5 5 5 15 0 20M31 17c8 8 8 22 0 30M38 12c11 11 11 29 0 40" stroke="#1f3d36" stroke-width="2.5" fill="none" stroke-linecap="round"/><text x="32" y="58" font-size="6" text-anchor="middle" font-family="IBM Plex Mono" fill="#666">tag-0${i+1}</text></svg>`}));
+  label('tigtag',622,820);
+  /* Árvore QR card with voxel tree */
+  box({key:'arvore',x:850,y:640,w:140,d:140,h:3,col:'#f4f1e8',top:`<div class="qr" style="position:absolute;inset:12px;display:grid;grid-template-columns:repeat(13,1fr)"></div><svg viewBox="0 0 40 40" style="position:absolute;left:46px;top:42px;width:48px;height:48px"><path d="M20 4l10 5-10 5-10-5z" fill="#5fb35f"/><path d="M10 9l10 5v10l-10-5z" fill="#3f8a3f"/><path d="M30 9l-10 5v10l10-5z" fill="#2f6f2f"/><path d="M18 24h4v10h-4z" fill="#7a5230"/></svg>`});
+  label('arvore',852,795);
+  /* HomeHunter on a laptop */
+  laptop('homehunter',1020,640,280,175,scrHome());
+  label('homehunter',1022,830);
+  /* PUREPOLIS PWA on a phone */
+  phone('purepolis',1340,640,108,215,scrPurepolis());
+  label('purepolis',1342,872);
+  /* LusoNutri tablet */
+  tablet('lusonutri',1490,640,200,260,scrNutri(),'#e9e6df');
+  label('lusonutri',1492,915);
+
+  const qr=mat.querySelector('.qr');let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  for(let r=0;r<13;r++)for(let c=0;c<13;c++){const fin=(r<3&&c<3)||(r<3&&c>9)||(r>9&&c<3);const mid=r>3&&r<9&&c>3&&c<9;const on=fin?!(r===1&&c%11===1):(!mid&&rnd()>.5);
+    const i=document.createElement('i');i.style.background=on?(fin?'#111820':(rnd()>.75?'#2f8a52':'#111820')):'transparent';qr.appendChild(i)}
+
+  benchKeys.forEach(k=>{
+    const p=PR[k];
+    groups[k].forEach(o=>{
+      o.tabIndex=0;o.setAttribute('role','button');o.setAttribute('aria-label',nameOf(p));
+      o.addEventListener('click',()=>openCase(k,true));
+      o.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCase(k,true)}});
+      o.addEventListener('pointerenter',()=>groups[k].forEach(g=>g.classList.add('lift')));
+      o.addEventListener('pointerleave',()=>groups[k].forEach(g=>g.classList.remove('lift')));
+    });
+    const b=document.createElement('button');b.textContent=nameOf(p);b.onclick=()=>openCase(k,true);pills.appendChild(b);
+  });
+}
+/* camera: overview, or focused on one project */
+let rx=52,rz=-16,tX=0,tZ=0,sc=1,focusKey=null;
+function narrow(){return innerWidth<860}
+function fit(){
+  const W=stageEl.clientWidth,H=stageEl.clientHeight;
+  sc=Math.min(W/2120,H/880);
+  apply();
+}
+function apply(){
+  let pre='',S=sc,fx=0,fy=0,tz=tZ,tx_=tX;
+  if(focusKey&&bboxes[focusKey]){
+    const b=bboxes[focusKey],cx=(b.x0+b.x1)/2,cy=(b.y0+b.y1)/2,bw=Math.max(b.x1-b.x0,b.y1-b.y0,200);
+    const W=stageEl.clientWidth,H=stageEl.clientHeight;
+    const shift=(!narrow()&&!drawer.hidden)?Math.min(260,W*.2):0;
+    S=Math.max(sc,Math.min((W-shift*2)/(bw*1.7),H/(bw*1.25),1.6));
+    fx=MW/2-cx;fy=MH/2-cy;pre=`translateX(${-shift}px) `;tz=0;tx_=0;
+  }
+  mat.style.transform=`${pre}scale(${S}) rotateX(${rx+tx_}deg) rotateZ(${rz+tz}deg) translate(${fx}px,${fy}px)`;
+}
+function focusOn(k){focusKey=k;apply();if(narrow())stageEl.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}
+function unfocus(){focusKey=null;apply()}
+addEventListener('resize',fit);
+if(!reduce&&!touch)stageEl.addEventListener('pointermove',e=>{if(focusKey)return;const r=stageEl.getBoundingClientRect();tZ=((e.clientX-r.left)/r.width-.5)*8;tX=((e.clientY-r.top)/r.height-.5)*-5;apply()});
+
+/* ---------- language ---------- */
+function setLang(l){
+  lang=l;try{localStorage.setItem('cb-lang',l)}catch(e){}
+  document.documentElement.lang=l==='pt'?'pt-PT':'en';
+  document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=T(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>el.innerHTML=T(el.dataset.i18nHtml));
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>el.setAttribute('aria-label',T(el.dataset.i18nAria)));
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));
+  document.getElementById('hint').textContent=T(touch?'hint.touch':'hint.mouse');
+  buildResearch();buildBench();fit();
+  if(current)fillCase(current);
+}
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+setLang(lang);
+
+/* ---------- luminescence sample (full hero) ---------- */
+const hero=document.getElementById('top');
+const cv=document.getElementById('field'),cx=cv.getContext('2d');
+const tr=document.getElementById('trace'),tx=tr.getContext('2d');
+const countsEl=document.getElementById('counts');
+let W,H,P=[],mouse={x:-999,y:-999,on:false},rings=[];
+const TAU=.6,hist=new Array(220).fill(0);
+function resize(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  W=cv.clientWidth;H=cv.clientHeight;
+  cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+  tr.width=tr.clientWidth*dpr;tr.height=tr.clientHeight*dpr;tx.setTransform(dpr,0,0,dpr,0,0);
+  const n=Math.min(W*H/1900,touch?260:700)|0;
+  P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*10,vy:(Math.random()-.5)*10,e:0,c:wl(440+Math.random()*230)}));
+}
+addEventListener('resize',resize);resize();
+function pulse(x,y){rings.push({x,y,r:0});for(const p of P){const d=Math.hypot(p.x-x,p.y-y);if(d<320)p.e=Math.max(p.e,1-d/400)}}
+hero.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;mouse.on=true});
+hero.addEventListener('pointerleave',()=>mouse.on=false);
+hero.addEventListener('pointerdown',e=>{if(e.target.closest('a,button'))return;const r=cv.getBoundingClientRect();pulse(e.clientX-r.left,e.clientY-r.top)});
+let last=performance.now(),visible=true;
+new IntersectionObserver(([en])=>{visible=en.isIntersecting}).observe(hero);
+function frame(t){
+  const dt=Math.min((t-last)/1000,.05);last=t;
+  if(visible){
+    cx.globalCompositeOperation='source-over';cx.fillStyle='rgba(9,14,19,.38)';cx.fillRect(0,0,W,H);
+    cx.globalCompositeOperation='lighter';
+    let I=0;const k=Math.exp(-dt/TAU);
+    for(const p of P){
+      if(!reduce){p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.x<0)p.x+=W;if(p.x>W)p.x-=W;if(p.y<0)p.y+=H;if(p.y>H)p.y-=H}
+      if(mouse.on){const d=Math.hypot(p.x-mouse.x,p.y-mouse.y);if(d<120)p.e=Math.min(1,p.e+dt*5*(1-d/120))}
+      p.e*=k;I+=p.e;
+      const [r,g,b]=p.c,s=1+p.e*2.6;
+      cx.fillStyle=`rgba(${r},${g},${b},${.14+p.e*.86})`;cx.beginPath();cx.arc(p.x,p.y,s,0,6.283);cx.fill();
+      if(p.e>.25){cx.fillStyle=`rgba(${r},${g},${b},${p.e*.12})`;cx.beginPath();cx.arc(p.x,p.y,s*5,0,6.283);cx.fill()}
+    }
+    cx.globalCompositeOperation='source-over';
+    rings=rings.filter(q=>q.r<400);
+    for(const q of rings){q.r+=dt*850;cx.strokeStyle=`rgba(25,216,232,${1-q.r/400})`;cx.lineWidth=1.5;cx.beginPath();cx.arc(q.x,q.y,q.r,0,6.283);cx.stroke()}
+    if(mouse.on){cx.strokeStyle='rgba(25,216,232,.3)';cx.setLineDash([3,5]);cx.beginPath();cx.arc(mouse.x,mouse.y,120,0,6.283);cx.stroke();cx.setLineDash([])}
+    hist.push(I);hist.shift();
+    const w=tr.clientWidth,h=tr.clientHeight,max=Math.max(30,...hist);
+    tx.clearRect(0,0,w,h);tx.strokeStyle='rgba(233,239,242,.07)';tx.lineWidth=1;
+    for(let i=1;i<4;i++){tx.beginPath();tx.moveTo(0,h*i/4);tx.lineTo(w,h*i/4);tx.stroke()}
+    tx.strokeStyle='#FFB45E';tx.lineWidth=1.6;tx.beginPath();
+    hist.forEach((v,i)=>{const x=i/(hist.length-1)*w,y=h-3-(v/max)*(h-8);i?tx.lineTo(x,y):tx.moveTo(x,y)});tx.stroke();
+    countsEl.textContent=Math.round(I*100).toLocaleString('en');
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+/* one orchestrated moment on load */
+if(!reduce)setTimeout(()=>pulse(W*.68,H*.42),700);
+</script>
+</body>
+</html>
