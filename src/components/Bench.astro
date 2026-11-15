@@ -10,7 +10,7 @@ const { lang } = Astro.props;
   <ul class="bench-list" aria-label={t(lang, 'bench.group')}>
     {workbenchProjects.map((p) => (
       <li>
-        <a href={projectPath(lang, p.id)} data-project={p.id}>
+        <a href={projectPath(lang, p.id)} data-project={p.id} data-open-case={p.id}>
           <span class="nm">{p.name[lang]}</span>
           <span class="hk">{p[lang].hook}</span>
         </a>

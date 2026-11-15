@@ -143,6 +143,23 @@ main > section.contact { padding-bottom: 64px; border-top: 1px solid var(--line-
 .project-page .back:hover { color: var(--cyan); }
 .project-page .lede { color: var(--paper-3); text-shadow: none; margin: 2rem 0 0.4rem; }
 
+/* Case-study panel: native modal dialog, right side panel (bottom sheet under 860 px) */
+.line { background: none; border: 0; padding: 0; cursor: pointer; }
+.drawer { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(520px, 100vw); max-width: 100vw; height: 100%; max-height: 100dvh; padding: 36px 34px 48px; overflow: auto; overscroll-behavior: contain; background: var(--graphite); color: var(--paper); border: 0; border-left: 1px solid var(--line); transform: translateX(102%); transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.drawer.is-open { transform: none; }
+.drawer::backdrop { background: rgba(0, 0, 0, 0.5); }
+.drawer.light::backdrop { background: rgba(0, 0, 0, 0.12); }
+.drawer:focus-visible { outline: none; }
+html:has(.drawer[open]) { overflow: hidden; }
+.drawer-tools { position: absolute; top: 18px; right: 18px; display: flex; gap: 8px; align-items: center; }
+.close, .case-lang { font: inherit; font-size: 0.95rem; background: none; color: var(--paper); border: 1px solid rgba(233, 239, 242, 0.25); border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; text-decoration: none; line-height: 1.5; }
+.case-lang { font-family: var(--mono); font-size: 0.8rem; color: var(--paper-3); }
+.close:hover, .case-lang:hover { border-color: var(--cyan); color: var(--cyan); }
+.drawer .case .cat { padding-right: 150px; }
+.drawer .case .case-title { font-size: 2.4rem; }
+.drawer .page-link { margin-top: 2rem; }
+.drawer .page-link a { color: var(--cyan); }
+
 /* 404 */
 .notfound { min-height: 100vh; display: grid; align-content: center; gap: 56px; padding: 64px var(--pad); }
 .notfound h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
@@ -156,6 +173,9 @@ main > section.contact { padding-bottom: 64px; border-top: 1px solid var(--line-
   .rows .mt { text-align: left; }
   .pubs li { grid-template-columns: 1fr; gap: 2px; }
   .readout { display: none; }
+  .drawer { inset: auto 0 0 0; width: 100%; height: 62vh; height: 62dvh; border-left: 0; border-top: 1px solid rgba(233, 239, 242, 0.15); border-radius: 14px 14px 0 0; padding: 28px 22px 40px; transform: translateY(102%); }
+  .drawer::backdrop { background: rgba(0, 0, 0, 0.25); }
+  .drawer .case .case-title { font-size: 2rem; }
   .stagebit .wrap { grid-template-columns: 1fr; gap: 32px; }
 }
 

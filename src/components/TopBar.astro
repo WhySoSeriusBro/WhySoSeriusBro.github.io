@@ -37,11 +37,11 @@ const sections = [
 </header>
 
 <script is:inline>
-  // Keep the current hash when switching language and remember the choice.
-  document.querySelectorAll('[data-lang-switch]').forEach((a) => {
-    a.addEventListener('click', () => {
-      try { localStorage.setItem('cb-lang', a.dataset.langSwitch); } catch (e) {}
-      if (location.hash) a.href = a.href.split('#')[0] + location.hash;
-    });
+  // Keep the current hash when switching language and remember the choice (delegated, so later links work too).
+  document.addEventListener('click', (e) => {
+    const a = e.target instanceof Element && e.target.closest('[data-lang-switch]');
+    if (!a) return;
+    try { localStorage.setItem('cb-lang', a.dataset.langSwitch); } catch (err) {}
+    if (location.hash) a.href = a.href.split('#')[0] + location.hash;
   });
 </script>

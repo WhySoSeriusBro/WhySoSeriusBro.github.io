@@ -4,19 +4,20 @@ import { wlCss, bandPercent } from '../lib/spectrum';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 ---
-<section id="research">
+<section id="research" data-case-from="research">
   <h2>{t(lang, 'res.h')}</h2>
   <p class="sub">{t(lang, 'res.sub')}</p>
+  <!-- Lines are decorative duplicates of the rows: not focusable, hidden from assistive tech. -->
   <div class="bandwrap" aria-hidden="true">
     <div class="band"></div>
     {researchProjects.map((p) => (
-      <span class="line" data-project={p.id} style={`left:${bandPercent(p.spectrumWavelengthNm!)}%;--c:${wlCss(p.spectrumWavelengthNm!)}`}></span>
+      <button type="button" class="line" tabindex="-1" data-project={p.id} data-open-case={p.id} style={`left:${bandPercent(p.spectrumWavelengthNm!)}%;--c:${wlCss(p.spectrumWavelengthNm!)}`}></button>
     ))}
   </div>
   <ul class="rows">
     {researchProjects.map((p) => (
       <li>
-        <a href={projectPath(lang, p.id)} data-project={p.id} style={`--c:${wlCss(p.spectrumWavelengthNm!)}`}>
+        <a href={projectPath(lang, p.id)} data-project={p.id} data-open-case={p.id} style={`--c:${wlCss(p.spectrumWavelengthNm!)}`}>
           <span class="sw" aria-hidden="true"></span>
           <span class="nm">{p.name[lang]}</span>
           <span class="hk">{p[lang].hook}</span>
@@ -37,3 +38,22 @@ const { lang } = Astro.props;
     </ul>
   </div>
 </section>
+
+<script>
+  // Two-way highlight between a row and its emission line.
+  const section = document.getElementById('research');
+  const pairs = new Map<string, HTMLElement[]>();
+  section?.querySelectorAll<HTMLElement>('[data-project]').forEach((el) => {
+    const id = el.dataset.project!;
+    pairs.set(id, [...(pairs.get(id) ?? []), el]);
+  });
+  const hot = (id: string, on: boolean) => pairs.get(id)?.forEach((el) => el.classList.toggle('hot', on));
+  pairs.forEach((els, id) => {
+    for (const el of els) {
+      el.addEventListener('pointerenter', () => hot(id, true));
+      el.addEventListener('pointerleave', () => hot(id, false));
+      el.addEventListener('focus', () => hot(id, true));
+      el.addEventListener('blur', () => hot(id, false));
+    }
+  });
+</script>

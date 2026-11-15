@@ -5,6 +5,7 @@ import Research from '../../components/Research.astro';
 import Bench from '../../components/Bench.astro';
 import Theatre from '../../components/Theatre.astro';
 import Contact from '../../components/Contact.astro';
+import CasePanel from '../../components/CasePanel.astro';
 import { LANGS, t, homePath, type Lang } from '../../lib/content';
 
 export function getStaticPaths() {
@@ -19,4 +20,5 @@ const lang = Astro.params.lang as Lang;
   <Bench lang={lang} />
   <Theatre lang={lang} />
   <Contact lang={lang} />
+  <CasePanel lang={lang} />
 </Base>
