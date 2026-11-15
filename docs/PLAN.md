@@ -54,7 +54,7 @@ Acceptance: running the pipeline with some raw files missing still builds and li
 Acceptance: every object and pill opens the right case study and focuses the camera; works with mouse, touch and keyboard; reduced motion jumps instead of animating; runs smoothly on a mid Android (if not, report numbers and options before switching to Three.js).
 
 ## Phase 7: SEO and sharing
-- [ ] JSON-LD `Person`, OG/Twitter images per language, hreflang, canonical, sitemap, robots, 404.
+- [x] JSON-LD `Person`, OG/Twitter images per language, hreflang, canonical, sitemap, robots, 404.
 
 Acceptance: Rich Results Test passes for `Person`; link previews show the right image and text in both languages.
 
