@@ -18,7 +18,7 @@ const { project } = Astro.props;
   paths={{ en: projectPath('en', project.id), pt: projectPath('pt', project.id) }}
 >
   <div class="project-page">
-    <p><a href={`${homePath(lang)}#p-${project.id}`}>← {t(lang, 'p.back')}</a></p>
+    <p><a class="back" href={`${homePath(lang)}#p-${project.id}`}>← {t(lang, 'p.back')}</a></p>
     <p class="lede">{project[lang].hook}</p>
     <CaseStudy project={project} lang={lang} />
   </div>

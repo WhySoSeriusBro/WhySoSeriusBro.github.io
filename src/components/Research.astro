@@ -1,15 +1,23 @@
 ---
 import { site, t, researchProjects, projectPath, type Lang } from '../lib/content';
+import { wlCss, bandPercent } from '../lib/spectrum';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 ---
 <section id="research">
   <h2>{t(lang, 'res.h')}</h2>
   <p class="sub">{t(lang, 'res.sub')}</p>
+  <div class="bandwrap" aria-hidden="true">
+    <div class="band"></div>
+    {researchProjects.map((p) => (
+      <span class="line" data-project={p.id} style={`left:${bandPercent(p.spectrumWavelengthNm!)}%;--c:${wlCss(p.spectrumWavelengthNm!)}`}></span>
+    ))}
+  </div>
   <ul class="rows">
     {researchProjects.map((p) => (
       <li>
-        <a href={projectPath(lang, p.id)} data-project={p.id} data-nm={p.spectrumWavelengthNm}>
+        <a href={projectPath(lang, p.id)} data-project={p.id} style={`--c:${wlCss(p.spectrumWavelengthNm!)}`}>
+          <span class="sw" aria-hidden="true"></span>
           <span class="nm">{p.name[lang]}</span>
           <span class="hk">{p[lang].hook}</span>
           {p[lang].meta && <span class="mt mono">{p[lang].meta}</span>}
