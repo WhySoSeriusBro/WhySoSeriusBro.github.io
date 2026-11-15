@@ -1,0 +1,31 @@
+---
+import { t, caseFields, projectLinks, type Project, type Lang } from '../lib/content';
+interface Props { project: Project; lang: Lang; headingLevel?: 'h1' | 'h2' }
+const { project: p, lang, headingLevel = 'h1' } = Astro.props;
+const H = headingLevel;
+const fields = caseFields(p, lang);
+const links = projectLinks(p, lang);
+---
+<article class="case">
+  <div class="cat mono">{p[lang].cat}</div>
+  <H class="case-title">{p.name[lang]}</H>
+  <div class="status mono">{p[lang].status}</div>
+  <dl>
+    {fields.map((f) => (
+      <div>
+        <dt>{f.label}</dt>
+        <dd>{f.value}</dd>
+      </div>
+    ))}
+  </dl>
+  {p.stack.length > 0 && (
+    <ul class="stack mono" aria-label={t(lang, 'd.stack')}>
+      {p.stack.map((s) => <li>{s}</li>)}
+    </ul>
+  )}
+  {links.length > 0 && (
+    <ul class="dlinks" aria-label={t(lang, 'd.links')}>
+      {links.map((x) => <li><a href={x.href}>{x.label}</a></li>)}
+    </ul>
+  )}
+</article>

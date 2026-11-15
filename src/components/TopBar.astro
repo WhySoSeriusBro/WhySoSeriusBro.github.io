@@ -1,0 +1,47 @@
+---
+import { site, t, homePath, otherLang, type Lang } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+  /** Same page in the other language. */
+  altHref: string;
+}
+const { lang, altHref } = Astro.props;
+const home = homePath(lang);
+const other = otherLang(lang);
+const cv = site.person.links.cvPdf;
+const sections = [
+  ['research', 'nav.research'],
+  ['bench', 'nav.bench'],
+  ['theatre', 'nav.theatre'],
+  ['contact', 'nav.contact'],
+] as const;
+---
+<header class="bar">
+  <a class="logo" href={`${home}#top`} aria-label={t(lang, 'logo')}>
+    <svg viewBox="0 0 34 34" width="34" height="34" aria-hidden="true"><rect width="34" height="34" rx="7" fill="#111820"></rect><path d="M15 9.5a7.5 7.5 0 1 0 0 15" stroke="#19D8E8" stroke-width="3" fill="none" stroke-linecap="round"></path><path d="M18.5 9.5h4.2a3.6 3.6 0 0 1 0 7.2h-4.2zM18.5 16.7h5a3.9 3.9 0 0 1 0 7.8h-5z" stroke="#E9EFF2" stroke-width="2.6" fill="none" stroke-linejoin="round"></path></svg>
+  </a>
+  <nav aria-label={t(lang, 'nav.main')}>
+    {sections.map(([id, key]) => <a href={`${home}#${id}`}>{t(lang, key)}</a>)}
+    {cv && <a class="cv" href={cv}>{t(lang, 'nav.cv')}</a>}
+  </nav>
+  <div class="lang" role="group" aria-label={t(lang, 'lang.group')}>
+    {(['pt', 'en'] as const).map((l) =>
+      l === lang ? (
+        <span aria-current="true" lang={l === 'pt' ? 'pt-PT' : 'en'} aria-label={`${t(l, `lang.${l}`)} (${l.toUpperCase()})`}>{l.toUpperCase()}</span>
+      ) : (
+        <a href={altHref} hreflang={l === 'pt' ? 'pt-PT' : 'en'} lang={l === 'pt' ? 'pt-PT' : 'en'} aria-label={`${t(l, `lang.${l}`)} (${l.toUpperCase()})`} data-lang-switch={other}>{l.toUpperCase()}</a>
+      ),
+    )}
+  </div>
+</header>
+
+<script is:inline>
+  // Keep the current hash when switching language and remember the choice.
+  document.querySelectorAll('[data-lang-switch]').forEach((a) => {
+    a.addEventListener('click', () => {
+      try { localStorage.setItem('cb-lang', a.dataset.langSwitch); } catch (e) {}
+      if (location.hash) a.href = a.href.split('#')[0] + location.hash;
+    });
+  });
+</script>

@@ -1,0 +1,33 @@
+---
+import { site, t, type Lang } from '../lib/content';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const th = site.theatre;
+
+---
+<section id="theatre" class="stagebit">
+  <div class="wrap">
+    <div class="intro2">
+      <h2>{t(lang, 'th.h')}</h2>
+      <p>{th.intro[lang]}</p>
+      <p class="fatal mono">{t(lang, 'th.fatal')}</p>
+    </div>
+    <ul class="bill">
+      {th.productions.map((p) => (
+        <li>
+          <span class="yr mono">{p.year}</span>
+          <div class="ttl">{p.title}{p.basedOn && <small>{p.basedOn[lang]}</small>}</div>
+          <div class="rl">{p.role[lang]}</div>
+          {p.award && <div class="aw mono">{p.award[lang]}</div>}
+        </li>
+      ))}
+      {th.writtenAndDirected.length > 0 && (
+        <li>
+          <span class="yr mono">{t(lang, 'th.wrote.label')}</span>
+          <div class="ttl sm">{t(lang, 'th.wrote.title')}</div>
+          <div class="plays">{th.writtenAndDirected.map((w) => <span>{w}</span>)}</div>
+        </li>
+      )}
+    </ul>
+  </div>
+</section>

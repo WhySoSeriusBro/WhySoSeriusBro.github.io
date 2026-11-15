@@ -1,0 +1,28 @@
+---
+import { site, t } from '../lib/content';
+import '../styles/global.css';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 — {site.person.name}</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#090E13" />
+  </head>
+  <body>
+    <main class="notfound">
+      <section lang="pt-PT">
+        <h1>{t('pt', 'nf.h')}</h1>
+        <p>{t('pt', 'nf.p')}</p>
+        <p><a class="btn" href="/pt/">{t('pt', 'nf.home')}</a></p>
+      </section>
+      <section lang="en">
+        <h1>{t('en', 'nf.h')}</h1>
+        <p>{t('en', 'nf.p')}</p>
+        <p><a class="btn" href="/en/">{t('en', 'nf.home')}</a></p>
+      </section>
+    </main>
+  </body>
+</html>

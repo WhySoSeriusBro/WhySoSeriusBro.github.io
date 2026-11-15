@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Research from '../../components/Research.astro';
+import Bench from '../../components/Bench.astro';
+import Theatre from '../../components/Theatre.astro';
+import Contact from '../../components/Contact.astro';
+import { LANGS, t, homePath, type Lang } from '../../lib/content';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+---
+<Base lang={lang} title={t(lang, 'meta.title')} description={t(lang, 'hero.lede')} paths={{ en: homePath('en'), pt: homePath('pt') }}>
+  <Hero lang={lang} />
+  <Research lang={lang} />
+  <Bench lang={lang} />
+  <Theatre lang={lang} />
+  <Contact lang={lang} />
+</Base>

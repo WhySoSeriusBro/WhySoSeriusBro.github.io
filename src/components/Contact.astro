@@ -1,0 +1,22 @@
+---
+import { site, t, type Lang } from '../lib/content';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const l = site.person.links;
+// Brand names are not translated; only links with a value render.
+const links = [
+  l.email && { label: 'Email', href: `mailto:${l.email}` },
+  { label: 'GitHub', href: site.person.github },
+  l.linkedin && { label: 'LinkedIn', href: l.linkedin },
+  l.orcid && { label: 'ORCID', href: l.orcid },
+  l.googleScholar && { label: 'Google Scholar', href: l.googleScholar },
+  l.cvPdf && { label: t(lang, 'nav.cv'), href: l.cvPdf },
+].filter((x): x is { label: string; href: string } => Boolean(x));
+---
+<section id="contact" class="contact">
+  <h2>{t(lang, 'ct.h')}</h2>
+  <p class="sub">{t(lang, 'ct.sub')}</p>
+  <ul class="links">
+    {links.map((x) => <li><a href={x.href}>{x.label}</a></li>)}
+  </ul>
+</section>

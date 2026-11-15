@@ -1,0 +1,31 @@
+---
+import { site, t, researchProjects, projectPath, type Lang } from '../lib/content';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<section id="research">
+  <h2>{t(lang, 'res.h')}</h2>
+  <p class="sub">{t(lang, 'res.sub')}</p>
+  <ul class="rows">
+    {researchProjects.map((p) => (
+      <li>
+        <a href={projectPath(lang, p.id)} data-project={p.id} data-nm={p.spectrumWavelengthNm}>
+          <span class="nm">{p.name[lang]}</span>
+          <span class="hk">{p[lang].hook}</span>
+          {p[lang].meta && <span class="mt mono">{p[lang].meta}</span>}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div class="pubs">
+    <h3>{t(lang, 'pubs.h')}</h3>
+    <ul>
+      {site.publications.map((pub) => (
+        <li>
+          <span class="mono yr">{pub.year} · {pub.kind[lang]}</span>
+          {pub.url ? <a href={pub.url}>{pub.title[lang]}</a> : <span>{pub.title[lang]}</span>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

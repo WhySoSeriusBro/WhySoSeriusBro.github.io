@@ -1,0 +1,40 @@
+---
+import { site, t, htmlLang, otherLang, homePath, type Lang } from '../lib/content';
+import TopBar from '../components/TopBar.astro';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Path of this page in each language, used for hreflang, canonical and the language switch. */
+  paths: Record<Lang, string>;
+}
+
+const { lang, title, description, paths } = Astro.props;
+const base = site.person.siteUrl;
+const canonical = new URL(paths[lang], base).href;
+---
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={new URL(paths.en, base).href} />
+    <link rel="alternate" hreflang="pt-PT" href={new URL(paths.pt, base).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(homePath('en'), base).href} />
+    <meta name="theme-color" content="#090E13" />
+  </head>
+  <body>
+    <TopBar lang={lang} altHref={paths[otherLang(lang)]} />
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p class="mono">© {new Date().getFullYear()} {site.person.name} · {t(lang, 'ft.built')}</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+---
+import { site, t, type Lang } from '../lib/content';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<section class="hero" id="top">
+  <div class="intro">
+    <h1>{site.person.name}</h1>
+    <p class="tag">{t(lang, 'hero.tag')}</p>
+    <p class="lede">{t(lang, 'hero.lede')}</p>
+    <div class="ctas">
+      <a class="btn" href="#research">{t(lang, 'hero.cta1')}</a>
+      <a class="btn ghost" href="#contact">{t(lang, 'hero.cta2')}</a>
+    </div>
+  </div>
+</section>

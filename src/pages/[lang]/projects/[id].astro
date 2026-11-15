@@ -1,0 +1,25 @@
+---
+import Base from '../../../layouts/Base.astro';
+import CaseStudy from '../../../components/CaseStudy.astro';
+import { LANGS, allProjects, site, t, homePath, projectPath, type Lang, type Project } from '../../../lib/content';
+
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) => allProjects.map((project) => ({ params: { lang, id: project.id }, props: { project } })));
+}
+
+interface Props { project: Project }
+const lang = Astro.params.lang as Lang;
+const { project } = Astro.props;
+---
+<Base
+  lang={lang}
+  title={`${project.name[lang]} — ${site.person.name}`}
+  description={project[lang].hook}
+  paths={{ en: projectPath('en', project.id), pt: projectPath('pt', project.id) }}
+>
+  <div class="project-page">
+    <p><a href={`${homePath(lang)}#p-${project.id}`}>← {t(lang, 'p.back')}</a></p>
+    <p class="lede">{project[lang].hook}</p>
+    <CaseStudy project={project} lang={lang} />
+  </div>
+</Base>
