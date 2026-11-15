@@ -66,7 +66,10 @@ h1 { font-size: clamp(3rem, 8vw, 7rem); font-weight: 800; line-height: 0.9; lett
 .hint { grid-column: 1 / -1; font-size: 0.8rem; color: var(--steel); }
 /* Live sample: pointer goes to the canvas, except the two buttons. */
 .hero.is-live { cursor: crosshair; touch-action: pan-y; }
-.hero.is-live .instrument { display: grid; }
+/* With JS the strip's space is reserved from the first paint (no layout shift when the island starts);
+   it stays invisible until the simulation runs. Without JS it is not rendered at all. */
+.js .hero .instrument { display: grid; visibility: hidden; }
+.hero.is-live .instrument { display: grid; visibility: visible; }
 .hero.is-live .intro { pointer-events: none; }
 .hero.is-live .intro a { pointer-events: auto; cursor: pointer; }
 
