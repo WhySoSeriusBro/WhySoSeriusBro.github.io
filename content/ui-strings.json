@@ -30,7 +30,23 @@
     "d.problem": "The problem",
     "d.built": "What I built",
     "d.result": "Result",
-    "d.close": "Close"
+    "d.close": "Close",
+    "nav.main": "Main",
+    "lang.group": "Language",
+    "lang.en": "English",
+    "lang.pt": "Portuguese",
+    "meta.title": "Cristiano Barata — Making the invisible visible.",
+    "th.wrote.label": "Writer and director",
+    "th.wrote.title": "Plays I wrote and staged",
+    "d.stack": "Stack",
+    "d.links": "Links",
+    "d.page": "Open project page",
+    "p.back": "Back to the home page",
+    "ft.built": "Built with Astro",
+    "nf.h": "Page not found",
+    "nf.p": "This page does not exist or has moved.",
+    "nf.home": "Go to the home page",
+    "router.p": "Choose a language"
   },
   "pt": {
     "logo": "Cristiano Barata, voltar ao início",
@@ -63,6 +79,22 @@
     "d.problem": "O problema",
     "d.built": "O que construí",
     "d.result": "Resultado",
-    "d.close": "Fechar"
+    "d.close": "Fechar",
+    "nav.main": "Principal",
+    "lang.group": "Idioma",
+    "lang.en": "Inglês",
+    "lang.pt": "Português",
+    "meta.title": "Cristiano Barata — Tornar o invisível visível.",
+    "th.wrote.label": "Texto e encenação",
+    "th.wrote.title": "Peças que escrevi e encenei",
+    "d.stack": "Tecnologias",
+    "d.links": "Ligações",
+    "d.page": "Abrir a página do projeto",
+    "p.back": "Voltar à página inicial",
+    "ft.built": "Feito com Astro",
+    "nf.h": "Página não encontrada",
+    "nf.p": "Esta página não existe ou mudou de sítio.",
+    "nf.home": "Ir para a página inicial",
+    "router.p": "Escolha o idioma"
   }
 }
