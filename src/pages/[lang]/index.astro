@@ -7,6 +7,7 @@ import Theatre from '../../components/Theatre.astro';
 import Contact from '../../components/Contact.astro';
 import CasePanel from '../../components/CasePanel.astro';
 import { LANGS, t, homePath, type Lang } from '../../lib/content';
+import { homeJsonLd } from '../../lib/seo';
 
 export function getStaticPaths() {
   return LANGS.map((lang) => ({ params: { lang } }));
@@ -14,7 +15,7 @@ export function getStaticPaths() {
 
 const lang = Astro.params.lang as Lang;
 ---
-<Base lang={lang} title={t(lang, 'meta.title')} description={t(lang, 'hero.lede')} paths={{ en: homePath('en'), pt: homePath('pt') }}>
+<Base lang={lang} title={t(lang, 'meta.title')} description={t(lang, 'hero.lede')} paths={{ en: homePath('en'), pt: homePath('pt') }} jsonLd={homeJsonLd(lang)}>
   <Hero lang={lang} />
   <Research lang={lang} />
   <Bench lang={lang} />

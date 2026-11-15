@@ -1,5 +1,6 @@
 ---
-import { site, t, htmlLang, otherLang, homePath, type Lang } from '../lib/content';
+import { site, t, htmlLang, otherLang, type Lang } from '../lib/content';
+import { OG, ogImage, ogLocale, jsonLdText } from '../lib/seo';
 import TopBar from '../components/TopBar.astro';
 import '../styles/global.css';
 
@@ -9,11 +10,17 @@ interface Props {
   description: string;
   /** Path of this page in each language, used for hreflang, canonical and the language switch. */
   paths: Record<Lang, string>;
+  /** Open Graph type: the home pages are 'profile'-like websites, project pages 'article'. */
+  ogType?: 'website' | 'article';
+  /** JSON-LD object for this page, rendered in <head>. */
+  jsonLd?: unknown;
 }
 
-const { lang, title, description, paths } = Astro.props;
+const { lang, title, description, paths, ogType = 'website', jsonLd } = Astro.props;
 const base = site.person.siteUrl;
 const canonical = new URL(paths[lang], base).href;
+const image = ogImage(lang);
+const imageAlt = `${site.person.name}. ${t(lang, 'hero.tag')}`;
 ---
 <!doctype html>
 <html lang={htmlLang[lang]}>
@@ -26,7 +33,25 @@ const canonical = new URL(paths[lang], base).href;
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="en" href={new URL(paths.en, base).href} />
     <link rel="alternate" hreflang="pt-PT" href={new URL(paths.pt, base).href} />
-    <link rel="alternate" hreflang="x-default" href={new URL(homePath('en'), base).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(paths.en, base).href} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.person.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    <meta property="og:locale:alternate" content={ogLocale[otherLang(lang)]} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content={String(OG.width)} />
+    <meta property="og:image:height" content={String(OG.height)} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    {jsonLd !== undefined && <script type="application/ld+json" set:html={jsonLdText(jsonLd)} />}
     <meta name="theme-color" content="#090E13" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />

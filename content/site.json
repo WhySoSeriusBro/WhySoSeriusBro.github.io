@@ -10,7 +10,14 @@
       "googleScholar": null,
       "cvPdf": null
     },
-    "linksNote": "null = not provided yet. Render the button only when the value is set; never ship a placeholder href."
+    "linksNote": "null = not provided yet. Render the button only when the value is set; never ship a placeholder href.",
+    "structuredData": {
+      "_source": "docs/SPEC.md §12 (JSON-LD Person).",
+      "jobTitle": "AI X Lab Manager",
+      "worksFor": "Nova SBE",
+      "alumniOf": "NOVA FCT",
+      "knowsAbout": ["Instrumentation", "Analog front-ends", "Embedded systems", "Digital twins", "Full-stack web development"]
+    }
   },
   "publications": [
     { "year": 2026, "kind": { "en": "talk", "pt": "apresentação" }, "title": { "en": "LUNA at CANDO-EPE 2026 (IEEE), Budapest", "pt": "LUNA na CANDO-EPE 2026 (IEEE), Budapeste" }, "status": "presented" },

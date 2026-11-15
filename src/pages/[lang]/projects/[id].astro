@@ -2,6 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import CaseStudy from '../../../components/CaseStudy.astro';
 import { projectShot } from '../../../lib/screens';
+import { personRef } from '../../../lib/seo';
 import { LANGS, allProjects, site, t, homePath, projectPath, htmlLang, projectLinks, type Lang, type Project } from '../../../lib/content';
 
 export function getStaticPaths() {
@@ -26,19 +27,19 @@ const jsonLd = {
   genre: project[lang].cat,
   creativeWorkStatus: project[lang].status,
   keywords: project.stack.join(', '),
-  author: { '@type': 'Person', name: site.person.name, url: site.person.siteUrl },
+  author: personRef(),
+  isPartOf: { '@type': 'WebSite', name: site.person.name, url: site.person.siteUrl },
   ...(sameAs.length ? { sameAs } : {}),
 };
-// Escape '<' so the JSON can never close the script element.
-const jsonLdText = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
 ---
 <Base
   lang={lang}
   title={`${project.name[lang]} — ${site.person.name}`}
   description={project[lang].hook}
   paths={{ en: projectPath('en', project.id), pt: projectPath('pt', project.id) }}
+  ogType="article"
+  jsonLd={jsonLd}
 >
-  <script type="application/ld+json" set:html={jsonLdText} />
   <div class="project-page">
     <p><a class="back" href={`${homePath(lang)}#p-${project.id}`}>← {t(lang, 'p.back')}</a></p>
     <p class="lede">{project[lang].hook}</p>

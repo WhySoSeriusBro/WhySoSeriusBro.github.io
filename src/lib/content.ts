@@ -69,6 +69,12 @@ const siteFile = z.object({
       googleScholar: z.url().nullable(),
       cvPdf: z.string().min(1).nullable(),
     }),
+    structuredData: z.object({
+      jobTitle: z.string(),
+      worksFor: z.string(),
+      alumniOf: z.string(),
+      knowsAbout: z.array(z.string()),
+    }),
   }),
   publications: z.array(
     z.object({
