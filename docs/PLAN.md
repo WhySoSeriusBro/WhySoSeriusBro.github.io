@@ -59,9 +59,11 @@ Acceptance: every object and pill opens the right case study and focuses the cam
 Acceptance: Rich Results Test passes for `Person`; link previews show the right image and text in both languages.
 
 ## Phase 8: QA and handover
-- [ ] Lighthouse mobile ≥ 90 on `/en/` and `/pt/`; axe with zero serious issues.
+- [x] Lighthouse mobile ≥ 90 on `/en/` and `/pt/`; axe with zero serious issues. (Live site: performance 96 / 99, accessibility, best practices and SEO 100. axe: 0 violations of any impact on all pages, panel and live-bench states, at 390 and 1440 px.)
 - [ ] Manual pass: keyboard only, screen reader smoke test (NVDA or TalkBack), reduced motion, 390 px, 768 px, 1440 px, Chrome, Firefox, Safari if available.
-- [ ] Final list for Cristiano: open `todo` fields in projects.json, missing links in site.json, missing screenshots.
+  - Done: keyboard only, reduced motion, 390 / 768 / 1440 px in Chromium and WebKit (scripted), accessibility-tree check, 4x CPU throttle on a 390 px touch profile.
+  - Open (see docs/PENDENTES.md §7): NVDA/TalkBack by hand, Firefox (test build blocked by Windows), real Safari/iOS (Windows WebKit has no 3D compositing), a real mid-range Android.
+- [x] Final list for Cristiano: open `todo` fields in projects.json, missing links in site.json, missing screenshots. (docs/PENDENTES.md)
 
 ## Later (not now)
 - Real case-study media (photos of the LUNA prototype, demo videos).
