@@ -78,7 +78,7 @@ export function closeCase() {
 function fallbackTarget(id: string) {
   const sel = CSS.escape(id);
   const candidates = document.querySelectorAll<HTMLElement>(
-    `a[data-open-case="${sel}"], [data-open-case="${sel}"][tabindex="0"], [data-pill="${sel}"]`,
+    `a[data-open-case="${sel}"], button[data-open-case="${sel}"]:not([tabindex="-1"]), [data-pill="${sel}"]`,
   );
   return [...candidates].find((el) => el.getClientRects().length > 0) ?? null;
 }

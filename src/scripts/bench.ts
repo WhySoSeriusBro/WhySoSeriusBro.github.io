@@ -29,46 +29,47 @@ export function initBench(section: HTMLElement) {
   const stage = section.querySelector<HTMLElement>('[data-bench-stage]');
   const tpl = section.querySelector<HTMLTemplateElement>('[data-bench-template]');
   if (!stage || !tpl) return;
-  stage.append(tpl.content.cloneNode(true));
-  const mat = stage.querySelector<HTMLElement>('[data-mat]')!;
+  // The empty mat goes in first; its objects follow in small batches, one per frame, so building
+  // ~1000 3D elements never blocks the main thread in one long task (measured 237 ms at 4x CPU).
+  // Built once: move the nodes out of the template instead of cloning them.
+  const frag = tpl.content;
+  const mat = frag.querySelector<HTMLElement>('[data-mat]')!;
+  const pending = [...mat.children] as HTMLElement[];
+  mat.replaceChildren();
+  stage.append(mat);
   const bboxes: Record<string, BBox> = JSON.parse(mat.dataset.bboxes ?? '{}');
-  const names = new Map([...section.querySelectorAll<HTMLButtonElement>('[data-pill]')].map((b) => [b.dataset.pill!, b.textContent ?? '']));
+  const BATCH = 6;
+  const addBatch = () => {
+    const batch = pending.splice(0, BATCH);
+    mat.append(...batch);
+    for (const el of batch) wire(el);
+    if (pending.length) requestAnimationFrame(addBatch);
+  };
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const touch = matchMedia('(hover: none)').matches;
   const narrow = () => innerWidth < CAM.narrow;
   if (reduce) mat.classList.add('no-motion');
 
-  // Objects: group by project; the first object of each project is its keyboard stop.
+  // Objects are pointer targets only (their screens hold illustrative text, so they stay out of the
+  // accessibility tree). Each project's keyboard stop is its amber label, a real <button> whose
+  // visible text is its accessible name; the pills below the stage are the second way in.
   const groups = new Map<string, HTMLElement[]>();
-  for (const o of mat.querySelectorAll<HTMLElement>('.obj[data-key]')) {
-    const k = o.dataset.key!;
-    groups.set(k, [...(groups.get(k) ?? []), o]);
+  function wire(el: HTMLElement) {
+    const k = el.dataset.key;
+    if (!k) return;
+    if (el.classList.contains('obj')) {
+      groups.set(k, [...(groups.get(k) ?? []), el]);
+      el.dataset.openCase = k;
+      el.setAttribute('aria-hidden', 'true');
+      el.addEventListener('pointerenter', () => lift(k, true));
+      el.addEventListener('pointerleave', () => lift(k, false));
+    } else if (el.matches('button.label')) {
+      for (const ev of ['pointerenter', 'focus'] as const) el.addEventListener(ev, () => lift(k, true));
+      for (const ev of ['pointerleave', 'blur'] as const) el.addEventListener(ev, () => lift(k, false));
+    }
   }
-  for (const [k, objs] of groups) {
-    objs.forEach((o, i) => {
-      o.dataset.openCase = k;
-      if (i === 0) {
-        o.tabIndex = 0;
-        o.setAttribute('role', 'button');
-        o.setAttribute('aria-label', names.get(k) ?? k);
-      } else {
-        o.setAttribute('aria-hidden', 'true');
-      }
-      o.addEventListener('pointerenter', () => lift(k, true));
-      o.addEventListener('pointerleave', () => lift(k, false));
-      if (i === 0) {
-        o.addEventListener('focus', () => lift(k, true));
-        o.addEventListener('blur', () => lift(k, false));
-        o.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openCase(k, { trigger: o, from: 'bench' });
-          }
-        });
-      }
-    });
-  }
+  requestAnimationFrame(addBatch); // the empty mat paints alone first
   function lift(k: string, on: boolean) {
     groups.get(k)?.forEach((o) => o.classList.toggle('lift', on));
   }
