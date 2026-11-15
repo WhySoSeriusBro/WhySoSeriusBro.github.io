@@ -32,9 +32,9 @@ Acceptance: side by side with `reference/prototype.html`, the static parts match
 Acceptance: 60 fps on a mid laptop, no long tasks over 50 ms after load on a mid Android (DevTools CPU 4× slowdown), text legible at peak glow.
 
 ## Phase 4: spectrum and case-study panel
-- [ ] Spectrum band, lines from wavelengths, rows with two-way highlight.
-- [ ] Case-study panel (SPEC §9): side panel / bottom sheet, focus trap, Escape, language re-render, `#p-<id>` deep links.
-- [ ] Project pages with the same content and JSON-LD `CreativeWork`.
+- [x] Spectrum band, lines from wavelengths, rows with two-way highlight.
+- [x] Case-study panel (SPEC §9): side panel / bottom sheet, focus trap, Escape, language re-render, `#p-<id>` deep links.
+- [x] Project pages with the same content and JSON-LD `CreativeWork`.
 
 Acceptance: keyboard-only user can open and close every case study; deep link opens the right panel.
 
