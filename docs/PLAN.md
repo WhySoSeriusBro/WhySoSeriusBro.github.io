@@ -46,10 +46,10 @@ Acceptance: keyboard-only user can open and close every case study; deep link op
 Acceptance: running the pipeline with some raw files missing still builds and lists the missing ids; redaction rectangles are applied.
 
 ## Phase 6: workbench island
-- [ ] CSS 3D mat, box builder, device builders, all 14 projects with the layout from the prototype.
-- [ ] Screens use processed screenshots with glass overlay and light spill; fallback mocks when missing.
-- [ ] Labels never occluded at the overview camera; hover lift per project; pills.
-- [ ] Camera overview/focus with the desktop shift for the panel; mobile pill flow with bottom sheet.
+- [x] CSS 3D mat, box builder, device builders, all 14 projects with the layout from the prototype.
+- [x] Screens use processed screenshots with glass overlay and light spill; fallback mocks when missing.
+- [x] Labels never occluded at the overview camera; hover lift per project; pills.
+- [x] Camera overview/focus with the desktop shift for the panel; mobile pill flow with bottom sheet.
 
 Acceptance: every object and pill opens the right case study and focuses the camera; works with mouse, touch and keyboard; reduced motion jumps instead of animating; runs smoothly on a mid Android (if not, report numbers and options before switching to Three.js).
 

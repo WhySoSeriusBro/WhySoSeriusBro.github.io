@@ -38,7 +38,9 @@ export function openCase(id: string, opts: { trigger?: HTMLElement | null; from?
 
   current = id;
   body.replaceChildren(tpl.content.cloneNode(true));
-  dialog.classList.toggle('light', from === 'bench');
+  // Light scrim when the bench camera shows the object behind the panel (bench clicks and deep links to bench projects).
+  const onBench = !!document.querySelector(`[data-pill="${CSS.escape(id)}"]`);
+  dialog.classList.toggle('light', from === 'bench' || (from === 'link' && onBench));
   dialog.scrollTop = 0;
 
   if (!dialog.open) dialog.showModal();
@@ -58,7 +60,7 @@ export function closeCase() {
   current = null;
   dialog.classList.remove('is-open');
   // Return focus to the trigger, or to the project's row when the panel came from a deep link.
-  const target = returnTo?.isConnected ? returnTo : id ? document.querySelector<HTMLElement>(`a[data-open-case="${CSS.escape(id)}"]`) : null;
+  const target = returnTo?.isConnected ? returnTo : id ? fallbackTarget(id) : null;
   returnTo = null;
   const finish = () => {
     dialog!.close(); // the page stops being inert only now, so focus after this
@@ -70,6 +72,15 @@ export function closeCase() {
 
   if (HASH.test(location.hash)) history.replaceState(history.state, '', location.pathname + location.search);
   document.dispatchEvent(new CustomEvent('case:close', { detail: { id } }));
+}
+
+/** A visible, focusable control for the project: research row, bench object, pill or card. */
+function fallbackTarget(id: string) {
+  const sel = CSS.escape(id);
+  const candidates = document.querySelectorAll<HTMLElement>(
+    `a[data-open-case="${sel}"], [data-open-case="${sel}"][tabindex="0"], [data-pill="${sel}"]`,
+  );
+  return [...candidates].find((el) => el.getClientRects().length > 0) ?? null;
 }
 
 function openFromHash() {

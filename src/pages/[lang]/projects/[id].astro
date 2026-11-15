@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import CaseStudy from '../../../components/CaseStudy.astro';
+import { projectShot } from '../../../lib/screens';
 import { LANGS, allProjects, site, t, homePath, projectPath, htmlLang, projectLinks, type Lang, type Project } from '../../../lib/content';
 
 export function getStaticPaths() {
@@ -10,6 +11,7 @@ export function getStaticPaths() {
 interface Props { project: Project }
 const lang = Astro.params.lang as Lang;
 const { project } = Astro.props;
+const shot = projectShot(lang, project.id);
 const url = new URL(projectPath(lang, project.id), site.person.siteUrl).href;
 const sameAs = projectLinks(project, lang).map((l) => l.href);
 const jsonLd = {
@@ -40,6 +42,11 @@ const jsonLdText = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
   <div class="project-page">
     <p><a class="back" href={`${homePath(lang)}#p-${project.id}`}>← {t(lang, 'p.back')}</a></p>
     <p class="lede">{project[lang].hook}</p>
+    {shot && (
+      <figure class={`device-frame device-${shot.device}`}>
+        <img src={shot.page.src} width={shot.page.width} height={shot.page.height} alt="" decoding="async" />
+      </figure>
+    )}
     <CaseStudy project={project} lang={lang} />
   </div>
 </Base>
