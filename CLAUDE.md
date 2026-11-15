@@ -38,7 +38,8 @@ This repository starts as a handoff: the spec, the content and a working prototy
 
 ## Commands
 - `npm run dev`, `npm run build`, `npm run preview`
-- `npm run screens`: process raw screenshots (see SCREENSHOTS.md; added in Phase 5)
+- `npm run screens`: process raw screenshots (see SCREENSHOTS.md); also runs as the first step of `npm run build`
+- `npm run capture [-- <id> ...]`: Playwright capture of URL screens into `assets/screens/raw/` (demo credentials only, from `.env.screens`)
 - `npm run check`: Astro type check (link check and Lighthouse CI to be added)
 
 ## Definition of done for a phase

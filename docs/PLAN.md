@@ -39,9 +39,9 @@ Acceptance: 60 fps on a mid laptop, no long tasks over 50 ms after load on a mid
 Acceptance: keyboard-only user can open and close every case study; deep link opens the right panel.
 
 ## Phase 5: screenshot pipeline
-- [ ] `scripts/capture.mjs` (Playwright) for `url-public` and `url-login` entries, credentials from `.env.screens` only.
-- [ ] `scripts/screens.mjs` (sharp) implementing SCREENSHOTS.md, wired as `npm run screens` and into the build.
-- [ ] Checklist in Portuguese for Cristiano with every capture he must provide.
+- [x] `scripts/capture.mjs` (Playwright) for `url-public` and `url-login` entries, credentials from `.env.screens` only.
+- [x] `scripts/screens.mjs` (sharp) implementing SCREENSHOTS.md, wired as `npm run screens` and into the build.
+- [x] Checklist in Portuguese for Cristiano with every capture he must provide.
 
 Acceptance: running the pipeline with some raw files missing still builds and lists the missing ids; redaction rectangles are applied.
 

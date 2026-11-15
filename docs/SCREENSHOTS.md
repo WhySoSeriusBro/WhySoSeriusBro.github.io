@@ -59,3 +59,12 @@ If an id is missing from the manifest, the device renders the illustrated mock f
 ## Project pages
 
 Each `/<lang>/projects/<id>/` page shows the same screenshot larger, inside a simple device frame, with the case study text below.
+
+## Implementation notes (Phase 5)
+
+- `npm run capture [-- <id> ...]` runs `scripts/capture.mjs`; `npm run screens` runs `scripts/screens.mjs`, which `npm run build` also runs first.
+- Face sizes live in `src/lib/screen-faces.json` (mat units, measured from `buildBench()`). Each raw file produces `<id>[.pt].webp` (1×), `@2x.webp` and `.page.webp` (viewport aspect, at most 960 px wide) for the project pages.
+- `redactPt` overrides `redact` for the `.pt.png` capture when the Portuguese layout differs.
+- Optional per-entry `capture` settings (`waitFor`, `delayMs`, `login` selectors, `langs` with a `click` selector or `url` per language) are documented at the top of `scripts/capture.mjs`.
+- The manifest stores the dominant colour for the light spill (`null` for e-ink, paper and the print card). Outputs are rebuilt only when the raw file is newer, or when `PIPELINE_VERSION` in `screens.mjs` changes.
+- The checklist for Cristiano is `docs/CAPTURAS.md` (Portuguese).
