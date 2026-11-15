@@ -1,20 +1,66 @@
 ---
 import { t, workbenchProjects, projectPath, type Lang } from '../lib/content';
+import { buildBench } from '../lib/bench.js';
+import { shotsFor, projectShot } from '../lib/screens';
+import faces from '../lib/screen-faces.json';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+
+const names = Object.fromEntries(workbenchProjects.map((p) => [p.id, p.name[lang]]));
+const shots = shotsFor(lang);
+const { html: matHtml, bboxes } = buildBench(lang, names, shots);
+const missing = Object.keys(faces).filter((id) => !id.startsWith('_') && !shots[id]);
+if (missing.length) console.warn(`[bench] ${lang}: illustrated fallback for ${missing.join(', ')}`);
 ---
-<section id="bench" class="bench">
+<section id="bench" class="bench" data-case-from="bench">
   <h2>{t(lang, 'bench.h')}</h2>
   <p class="sub">{t(lang, 'bench.sub')}</p>
-  <!-- No-JS fallback; the interactive workbench island replaces this in Phase 6. -->
-  <ul class="bench-list" aria-label={t(lang, 'bench.group')}>
-    {workbenchProjects.map((p) => (
-      <li>
-        <a href={projectPath(lang, p.id)} data-project={p.id} data-open-case={p.id}>
-          <span class="nm">{p.name[lang]}</span>
-          <span class="hk">{p[lang].hook}</span>
-        </a>
-      </li>
-    ))}
+
+  <!-- No-JS and fallback view: a plain list of project cards. Replaced by the 3D bench once it runs. -->
+  <ul class="bench-list" aria-label={t(lang, 'bench.group')} data-bench-list>
+    {workbenchProjects.map((p) => {
+      const shot = projectShot(lang, p.id);
+      return (
+        <li>
+          <a href={projectPath(lang, p.id)} data-project={p.id} data-open-case={p.id}>
+            {shot && <img class="card-shot" src={shot.src2x} width={shot.width} height={shot.height} alt="" loading="lazy" decoding="async" />}
+            <span class="nm">{p.name[lang]}</span>
+            <span class="hk">{p[lang].hook}</span>
+          </a>
+        </li>
+      );
+    })}
   </ul>
+
+  <!-- The 3D workbench (SPEC §7). Stage and pills are shown only with JS (html.js), so their space is
+       reserved from the first paint; the mat itself is cloned from the template when the section nears the viewport. -->
+  <div class="benchstage js-only" data-bench-stage></div>
+  <div class="pills js-only" role="group" aria-label={t(lang, 'bench.group')}>
+    {workbenchProjects.map((p) => (
+      <button type="button" data-pill={p.id}>{p.name[lang]}</button>
+    ))}
+  </div>
+  <template data-bench-template>
+    <div class="mat" data-mat data-bboxes={JSON.stringify(bboxes)} set:html={matHtml} />
+  </template>
 </section>
+
+<script>
+  import { initBench } from '../scripts/bench';
+  const section = document.getElementById('bench');
+  const deep = /^#p-([a-z0-9-]+)$/.exec(location.hash)?.[1];
+  if (section && deep && section.querySelector(`[data-pill="${CSS.escape(deep)}"]`)) {
+    // Deep link to a bench project: build now and bring the stage behind the panel into view.
+    initBench(section);
+    section.querySelector('[data-bench-stage]')?.scrollIntoView({ block: 'start' });
+  } else if (section) {
+    // client:visible equivalent: build the bench shortly before it scrolls into view.
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        io.disconnect();
+        initBench(section);
+      }
+    }, { rootMargin: '400px 0px' });
+    io.observe(section);
+  }
+</script>

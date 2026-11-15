@@ -6,4 +6,6 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   build: { format: 'directory' },
+  // Keep screenshots as separate cacheable files (never base64 in the HTML).
+  vite: { build: { assetsInlineLimit: 0 } },
 });
